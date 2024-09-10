@@ -6,7 +6,7 @@ const getLangFromCookie = () => {
 };
 
 const apiClient = axios.create({
-  baseURL: "https://apipelavor.rf.gd/",
+  baseURL: "https://api.pelavor.com/",
 });
 
 apiClient.interceptors.request.use((config) => {
