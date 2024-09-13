@@ -66,7 +66,7 @@ export default function Home() {
       <RecentlyPublishedStories />
       <SSS />
       {/*<BestUsers />*/}
-      <ContactSection />
+      {/*<ContactSection />*/}
       <Footer />
     </div>
   );
