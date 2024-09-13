@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import ListCard from "@/components/listCard";
 import PageHeader from "@/components/page/header";
 import PageFilter from "@/components/page/filter";
+import Footer from "@/components/footer";
 
 export default function HotLists() {
   const [lists, setLists] = useState([]);
@@ -57,6 +58,7 @@ export default function HotLists() {
           )}
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

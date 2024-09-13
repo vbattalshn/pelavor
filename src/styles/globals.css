@@ -11,7 +11,7 @@ html{
     body{
         @apply bg-neutral-100;
     }
-    button, .signin-btn{
+    button:not(.base), .signin-btn{
         @apply active:scale-95;
     }
     input, button, .signin-btn, textarea{
@@ -23,7 +23,7 @@ html{
     .settings {
         @apply flex p-2 gap-2 lg:flex-row flex-col
     }
-    ul{
+    .message ul{
         @apply list-disc pl-6
     }
 }

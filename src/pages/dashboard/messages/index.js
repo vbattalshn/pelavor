@@ -89,7 +89,7 @@ function Message({ avatar, date, fullname, message, verification, sender }) {
           </span>
           <span className="font-normal text-neutral-600">{date}</span>
         </div>
-        <Markdown className="text-neutral-700 space-y-2">{message}</Markdown>
+        <Markdown className="text-neutral-700 space-y-2 message">{message}</Markdown>
       </div>
     </div>
   );

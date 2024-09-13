@@ -12,6 +12,7 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Ad1 from "@/components/ads/ad1";
+import Footer from "@/components/footer";
 
 export default function Play() {
   const [answer, setAnswer] = useState();
@@ -144,7 +145,7 @@ export default function Play() {
 
       <Header />
       {loading == false && data.progress_percent != 100 ? (
-        <div className="max-w-5xl mx-auto flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
+        <div className="max-w-5xl mx-auto min-h-screen flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
           <div className="w-full h-4 rounded-full bg-neutral-200 overflow-hidden">
             <span
               className={
@@ -230,6 +231,7 @@ export default function Play() {
         </Sheet.Container>
         <Sheet.Backdrop />
       </Sheet>
+      <Footer />
     </CheckAuth>
   );
 }

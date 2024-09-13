@@ -10,7 +10,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "notFoundImage": "url('https://images.pexels.com/photos/3368246/pexels-photo-3368246.jpeg')"
+        "notFoundImage": "url('https://images.pexels.com/photos/3368246/pexels-photo-3368246.jpeg')",
+        "mainImage": "url('https://files.pelavor.com/main_bg.svg')"
       },
       minHeight: {
         "dashboardContent":"calc(100vh - 16px)"

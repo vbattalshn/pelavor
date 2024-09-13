@@ -14,6 +14,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Arrow from "@/assets/icons/arrow";
 import UnderConstruction from "@/components/underConstruction";
 import toast from "react-hot-toast";
+import Footer from "@/components/footer";
 
 export default function List() {
   const [listData, setListData] = useState([]);
@@ -99,6 +100,7 @@ export default function List() {
           </div>
         </main>
       )}
+      <Footer />
     </div>
   );
 }

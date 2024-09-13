@@ -15,8 +15,8 @@ export default function Header() {
   var links = [
     {
       id: 1,
-      href: "/",
-      label: "Keşfet",
+      href: "https://blog.pelavor.com/",
+      label: "Blog",
     },
     {
       id: 2,
@@ -25,8 +25,8 @@ export default function Header() {
     },
     {
       id: 3,
-      href: "/",
-      label: "Etkinlikler",
+      href: "/podcast",
+      label: "Podcast",
     },
   ];
 

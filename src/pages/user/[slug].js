@@ -20,6 +20,7 @@ import {
 import Link from "next/link";
 import PageFilter from "@/components/page/filter";
 import ListCard from "@/components/listCard";
+import Footer from "@/components/footer";
 
 export default function User() {
   const router = useRouter();
@@ -38,8 +39,7 @@ export default function User() {
       ) : (
         <ProfileHeaderLoading />
       )}
-
-      {router.query.slug}
+      <Footer />
     </div>
   );
 }
@@ -125,6 +125,7 @@ function UserPageHead({ username }) {
   }, []);
 
   return loading == false ? (
+
     <div className="max-w-5xl mx-auto py-2 animate-loaded">
       <Image
         src={userData.Profile_banner}
@@ -247,7 +248,7 @@ function UserPageHead({ username }) {
       </Dialog>
       <UserLists username={userData.username} />
     </div>
-  ) : (
+    ) : (
     <ProfileHeaderLoading />
   );
 }
