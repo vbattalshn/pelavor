@@ -37,9 +37,31 @@ export default function Header() {
     }
   }, []);
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [headerClass, setHeaderClass] = useState('');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+
+      if (currentScrollPos > 60 && currentScrollPos > scrollPosition) {
+        setHeaderClass('translate-y-[-100%]');
+      } else if (currentScrollPos <= scrollPosition) {
+        setHeaderClass('');
+      }
+      setScrollPosition(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollPosition]);
+
   return (
-    <div className="w-full flex items-center justify-center flex-col sticky top-0 bg-slate-300/25 backdrop-blur z-10">
-      <header className="max-w-5xl w-full p-2 items-center justify-between sm:flex hidden">
+    <div className={"w-full flex items-center justify-center flex-col sticky top-0 bg-slate-300/25 backdrop-blur z-10 header-base transition-all " + headerClass}>
+      <header className="max-w-5xl w-full p-2 items-center justify-between sm:flex hidden ">
         <Link href="/">
           <Logo color="#202020" />
         </Link>
