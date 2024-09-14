@@ -71,7 +71,7 @@ export default function List() {
               url={url}
               joined={listData.joined}
             />
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-5xl mx-auto px-2">
               <TabGroup>
                 <TabList className="bg-neutral-200/50 w-full flex p-1 gap-1 rounded-lg border border-neutral-200 my-2">
                   <Tab className="flex-1 text-neutral-800 data-[selected]:!bg-indigo-600 rounded-md p-2 data-[selected]:text-neutral-300 data-[hover]:bg-neutral-200 data-[hover]:underline transition-all">
@@ -137,7 +137,7 @@ function ListHead({
   }
 
   return (
-    <div className="bg-neutral-200 ">
+    <div className="bg-neutral-200 bg-listBgImage bg-center bg-auto">
       <div className="flex max-w-5xl lg:flex-row flex-col mx-auto gap-4 px-2 py-8 justify-center items-center animate-loaded">
         <Image
           src={image}
@@ -193,9 +193,9 @@ function ListHead({
               </button>
             )}
 
-            <button className="p-2 rounded-full font-medium text-red-600 border !border-red-600 hocus:ring-red-600/50">
+            {/* <button className="p-2 rounded-full font-medium text-red-600 border !border-red-600 hocus:ring-red-600/50">
               <Bookmark />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

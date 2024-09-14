@@ -144,7 +144,7 @@ function RecentlyPublishedStories() {
   }, []);
 
   return (
-    <div className="w-full flex items-center justify-center bg-neutral-200/50">
+    <div className="w-full flex items-center justify-center bg-neutral-200/50 bg-sectionBgImage bg-auto bg-center">
       <div className="max-w-5xl w-full mx-auto py-8 px-4 flex items-start justify-center flex-col gap-8">
         <SectionTitle
           title="Son yayınlanan hikayeler"
