@@ -3,33 +3,37 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 export default function ad1() {
-    const [premium, setPremium] = useState(false);
-    const [preData, setPreData] = useState([]);
+  const [premium, setPremium] = useState(false);
+  const [preData, setPreData] = useState([]);
 
-    useEffect(() => {
-        setPreData(JSON.parse(Cookies.get("user_data")));
-    }, [])
+  useEffect(() => {
+    setPreData(JSON.parse(Cookies.get("user_data")));
+  }, []);
 
-    useEffect(() => {
-        setPremium(preData.premium_status ? true : false);
-    }, [preData])
+  useEffect(() => {
+    setPremium(preData.premium_status ? true : false);
+  }, [preData]);
 
-
-    return (
+  return (
+    <>
+      {!premium && (
         <>
-          {!premium && (
-            <div className="w-[300px] h-[250px] rounded-lg bg-neutral-200 flex flex-col items-center justify-center gap-6">
-              <span>
-                <Logo />
-              </span>
-              <div className="flex flex-col items-center justify-center">
-                <span className="text-xl font-medium italic text-neutral-700 animate-pulse">
-                  Reklam Alanı
-                </span>
-                <span className="text-xs text-neutral-500">(300x250)</span>
-              </div>
-            </div>
-          )}
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113432847008327"
+            crossOrigin="anonymous"
+          ></script>
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-1113432847008327"
+            data-ad-slot={9776836217}
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          ></ins>{" "}
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </>
-      );
+      )}
+    </>
+  );
 }
