@@ -63,7 +63,8 @@ export default function Header() {
   return (
     <div className={"w-full flex items-center justify-center flex-col sticky top-0 bg-slate-300/25 backdrop-blur z-10 header-base transition-all " + headerClass}>
       <Head>
-        <meta name="google-adsense-account" content="ca-pub-1113432847008327">
+        <meta name="google-adsense-account" content="ca-pub-1113432847008327" />
+
       </Head>
       <header className="max-w-5xl w-full p-2 items-center justify-between sm:flex hidden ">
         <Link href="/">
