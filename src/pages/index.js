@@ -310,8 +310,8 @@ function NewListCard({
           </div>
         ) : null}
 
-        <h3 className="font-bold text-neutral-800 line-clamp-1">{title}</h3>
-        <p className="line-clamp-3	text-neutral-700">{description}</p>
+        <h3 className="font-bold text-neutral-800 line-clamp-1" title={title}>{title}</h3>
+        <p className="line-clamp-3	text-neutral-700" title={description}>{description}</p>
       </div>
       {new_tab == false ? (
         <Link

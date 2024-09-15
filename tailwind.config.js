@@ -12,8 +12,8 @@ module.exports = {
       backgroundImage: {
         "notFoundImage": "url('https://images.pexels.com/photos/3368246/pexels-photo-3368246.jpeg')",
         "mainImage": "url('https://files.pelavor.com/main_bg.svg')",
-        "listBgImage": "url('https://api.pelavor.com/assets/bg-image.png')",
-        "sectionBgImage": "url('https://api.pelavor.com/assets/section-image.png')"
+        "listBgImage": "url('https://files.pelavor.com/bg-image.png')",
+        "sectionBgImage": "url('https://files.pelavor.com/section-image.png')"
         },
       minHeight: {
         "dashboardContent":"calc(100vh - 16px)"
