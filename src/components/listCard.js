@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Creator from "./creator";
 import Link from "next/link";
+import ArrowRight from "@/assets/icons/arrowRight";
 
 export default function ListCard({
   title,
@@ -10,45 +11,56 @@ export default function ListCard({
   url,
   user = null,
   edit = false,
+  new_tab = false,
+  bgColor = "bg-neutral-200/50",
 }) {
   return (
-    <div className="max-w-72 w-full p-2 flex flex-col justify-center gap-2 rounded-xl bg-neutral-200/50 border border-neutral-200 animate-loaded">
+    <div
+      className={
+        "max-w-80 h-96 flex rounded-lg overflow-hidden items-center justify-between flex-col " +
+        bgColor
+      }
+    >
       <Image
-        width={272}
-        height={160}
-        className="rounded-xl w-full h-40 object-cover"
-        alt={title + " list image"}
         src={image}
+        width={320}
+        height={180}
+        className="w-80 h-[180px] cover object-cover"
       />
-      <h2 className="font-medium text-neutral-900">{title}</h2>
-      <span className="flex gap-2 text-sm items-center">
-        <Creator
-          username={user.username}
-          profile={user.Profile_photo}
-          verification={user.User_verification_status == 1 ? true : false}
-        />
-        <span>-</span>
-        {date}
-      </span>
-      <p className="text-sm text-neutral-900 font-normal line-clamp-3 min-h-14">
-        {description}
-      </p>
-      <div className="flex gap-2">
+      <div className="flex w-full px-4 py-3 gap-2 flex-col">
+        {user != null ? (
+          <div className="flex gap-4 text-neutral-700">
+            <Creator
+              username={user.username}
+              profile={user.Profile_photo}
+              verification={user.User_verification_status}
+            />
+            {date}
+          </div>
+        ) : null}
+
+        <h3 className="font-bold text-neutral-800 line-clamp-1" title={title}>{title}</h3>
+        <p className="line-clamp-3	text-neutral-700" title={description}>{description}</p>
+      </div>
+      {new_tab == false ? (
+        
         <Link
           href={"/list/" + url}
-          className="flex flex-1 border border-transparent text-neutral-700 transition-all p-2 items-center justify-center rounded-lg hocus:bg-indigo-300/25 hocus:text-indigo-600 hocus:border-indigo-600"
+          className="flex gap-2 px-4 py-2 w-full justify-end text-indigo-600 hocus:gap-4 transition-all"
         >
-          Görüntüle
+          İncele
+          <ArrowRight />
         </Link>
-        {edit ? (
-          <Link
-            href={"/dashboard/edit-list/" + url}
-            className="flex flex-1 border border-transparent text-neutral-700 transition-all p-2 items-center justify-center rounded-lg hocus:bg-orange-300/25 hocus:text-orange-600 hocus:ring-orange-300 hocus:border-orange-600"
-          >
-            Düzenle
-          </Link>
-        ) : null}
-      </div>
+      ) : (
+        <a
+          href={url}
+          className="flex gap-2 px-4 py-2 w-full justify-end text-indigo-600 hocus:gap-4 transition-all"
+          target="_blank"
+        >
+          Oku
+          <ArrowRight />
+        </a>
+      )}
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function Messages() {
         setMessages(response.data.data.messages);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response?.data?.message || "Bir hata oluştu");
       })
       .finally(() => {
         setLoading(false);

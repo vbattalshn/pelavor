@@ -35,10 +35,6 @@ export default function ListSettings({
   const fileInputRef = useRef(null);
   const router = useRouter();
 
-  useState(() => {
-    console.log(previewUrl);
-  }, []);
-
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setImage(selectedFile);

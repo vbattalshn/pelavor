@@ -44,7 +44,6 @@ export default function CreateList() {
         setData(response.data.data)
       })
       .catch((error) => {
-        console.log(error);
         setError(error.response?.data?.message || 'Bir hata oluştu');
       })
       .finally(() => setLoading(false));

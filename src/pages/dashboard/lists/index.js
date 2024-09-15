@@ -2,6 +2,7 @@ import Layout from "@/components/dashboardLayout";
 import { useEffect, useState } from "react";
 import apiClient from "@/lib/api";
 import ListCard from "@/components/listCard";
+import toast from "react-hot-toast";
 
 export default function Lists() {
   const [lists, setLists] = useState([]);
@@ -16,7 +17,7 @@ export default function Lists() {
         setLists(response.data.data);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response?.data?.message || "Bir hata oluştu");
       })
       .finally(() => setLoading(false));
   }, []);

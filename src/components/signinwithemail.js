@@ -27,7 +27,6 @@ export default function SigninWithEmail() {
     apiClient
       .post("/signin", data)
       .then((response) => {
-        console.log(response);
         Cookies.set("session", response.data.data.token, { expires: 7 });
         Cookies.set("status", response.data.data.status, { expires: 7 });
         Cookies.set("user_data", JSON.stringify(response.data.data.user_data, { expires: 7 }));

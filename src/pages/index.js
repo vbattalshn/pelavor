@@ -133,7 +133,6 @@ function RecentlyPublishedStories() {
       .get("https://blog.pelavor.com/wp-json/wp/v2/posts")
       .then((response) => {
         setStories(response.data);
-        console.log(response.data);
       })
       .catch((error) =>
         toast.error(

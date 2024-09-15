@@ -24,7 +24,6 @@ export default function AddWord({addWordtoList}) {
     apiClient
       .post("/search_word", data)
       .then((response) => {
-        console.log(response.data.data.results);
         setResults(response.data.data.results);
       })
       .catch((error) => {

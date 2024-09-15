@@ -54,12 +54,10 @@ export default function Play() {
     apiClient
       .post("/get-random-word", requestData)
       .then((response) => {
-        console.log(response);
         setData(response.data?.data);
       })
       .catch((error) => {
-        console.log(error);
-        toast.error(error.response?.data?.message);
+        toast.error(error.response?.data?.message || "Bir hata oluştu.");
         router.push("/");
       })
       .finally(() => {
@@ -73,7 +71,6 @@ export default function Play() {
     if (answer == null) {
       toast.error("HATA");
       setIsSending(false);
-      console.log(answer);
     } else {
       const requestData = {
         word: data.word,
@@ -83,7 +80,6 @@ export default function Play() {
       apiClient
         .post("/check-answer", requestData)
         .then((response) => {
-          console.log(response);
           setAnswerIsCorrect(true);
           setTimeout(() => {
             getRandomWord();
@@ -103,7 +99,6 @@ export default function Play() {
               setIsOpen(true);
             }, 1000);
           } else {
-            console.log(error.response.data.message);
             toast.error(error.response.data.message);
           }
         })
