@@ -12,24 +12,25 @@ import toast from "react-hot-toast";
 import Arrow from "@/assets/icons/arrow";
 import Contact from "@/components/contact";
 import Footer from "@/components/footer";
+import ListCardLoading from "@/components/listCardLoading";
 
 export default function Home() {
   function scrollToElementBottom(className) {
     const element = document.querySelector(`.${className}`);
-    
+
     if (element) {
       const elementRect = element.getBoundingClientRect();
       const scrollY = window.scrollY;
       const bottomPosition = elementRect.top + elementRect.height + scrollY;
       window.scrollTo({
         top: bottomPosition,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     } else {
       console.error(`"${className}" adında bir öğe bulunamadı.`);
     }
   }
-  
+
   return (
     <div>
       <Head>
@@ -57,7 +58,10 @@ export default function Home() {
             tecrübelerinden faydalan, İngilizce olarak hazırlanmış podcastlerle
             dinleme becerilerini güçlendir.
           </p>
-          <button onClick={() => scrollToElementBottom("main-section")} className="px-4 py-3 rounded-lg bg-indigo-600 text-neutral-200 font-medium">
+          <button
+            onClick={() => scrollToElementBottom("main-section")}
+            className="px-4 py-3 rounded-lg bg-indigo-600 text-neutral-200 font-medium"
+          >
             Pelavor'u keşfet
           </button>
         </div>
@@ -98,7 +102,7 @@ function HotLists() {
           desc="Kullanıcılar tarafından en beğenilmiş beğenebileceğini düşündüğümüz listeler."
         />
         <div className="flex gap-4 items-center w-full lg:flex-row flex-col">
-          {lists.length > 0 || loading == false ? (
+          {lists.length > 0 && loading == false ? (
             lists.map((list, index) => (
               <NewListCard
                 image={list.image}
@@ -110,7 +114,17 @@ function HotLists() {
               />
             ))
           ) : (
-            <p>{lists.length > 0 ? "Yükleniyor..." : "No lists available"}</p>
+            <>
+              {loading == true ? (
+                <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
+                  <ListCardLoading />
+                  <ListCardLoading />
+                  <ListCardLoading />
+                </div>
+              ) : (
+                "No lists available"
+              )}
+            </>
           )}
         </div>
       </div>
@@ -130,7 +144,7 @@ function RecentlyPublishedStories() {
 
   useEffect(() => {
     apiClient
-      .get("https://blog.pelavor.com/wp-json/wp/v2/posts")
+      .get("https://blog.pelavor.com/wp-json/wp/v2/posts?per_page=3")
       .then((response) => {
         setStories(response.data);
       })
@@ -150,9 +164,10 @@ function RecentlyPublishedStories() {
           desc="Tüm dil seviyelerine ayrı ayrı yazılmış hikayelerden en son yayınlananlar."
         />
         <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
-          {stories.length > 0 || loading == false ? (
+          {stories.length > 0 && loading == false ? (
             stories.map((story, index) => (
               <NewListCard
+                index={index}
                 image={
                   story.better_featured_image.media_details.sizes.medium_large
                     .source_url
@@ -165,8 +180,18 @@ function RecentlyPublishedStories() {
               />
             ))
           ) : (
-            <p>{stories.length > 0 ? "Yükleniyor..." : "No lists available"}</p>
-          )}{" "}
+            <>
+              {loading == true ? (
+                <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
+                  <ListCardLoading />
+                  <ListCardLoading />
+                  <ListCardLoading />
+                </div>
+              ) : (
+                "No lists available"
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -218,7 +243,12 @@ function SSS() {
           ))}
           <div className="flex gap-2 mx-auto text-sm text-neutral-700">
             <span>Aradığın cevabı bulamadın mı?</span>
-            <Link href="/contact" className="underline hocus:text-indigo-600 transition-all">İletişime Geç</Link>
+            <Link
+              href="/contact"
+              className="underline hocus:text-indigo-600 transition-all"
+            >
+              İletişime Geç
+            </Link>
           </div>
         </div>
       </div>
@@ -253,9 +283,7 @@ function BestUsers() {
           desc="En çok Pelavor'a katkıda bulunan takip etmeni tavsiye ettiğimiz çok sevgili kullanıcılarımız."
         />
       </div>
-      <div>
-
-      </div>
+      <div></div>
     </div>
   );
 }
@@ -268,7 +296,7 @@ function ContactSection() {
           title="İletişimde kalalım"
           desc="Yardıma ihtiyacınız olduğunda uzman ekbimizle buradan iletişime geçebilirsiniz."
         />
-      <Contact />
+        <Contact />
       </div>
     </div>
   );
@@ -309,8 +337,12 @@ function NewListCard({
           </div>
         ) : null}
 
-        <h3 className="font-bold text-neutral-800 line-clamp-1" title={title}>{title}</h3>
-        <p className="line-clamp-3	text-neutral-700" title={description}>{description}</p>
+        <h3 className="font-bold text-neutral-800 line-clamp-1" title={title}>
+          {title}
+        </h3>
+        <p className="line-clamp-3	text-neutral-700" title={description}>
+          {description}
+        </p>
       </div>
       {new_tab == false ? (
         <Link

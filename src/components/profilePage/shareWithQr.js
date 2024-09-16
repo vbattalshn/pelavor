@@ -59,7 +59,7 @@ export default function ShareWithQr({
                 </span>
               </div>
               <QRCodeSVG
-                value={"http://localhost:3000/user/" + username}
+                value={"https://pelavor.com/q/" + id}
                 size={256}
                 bgColor={"#e5e5e5"}
                 fgColor={"#171717"}
