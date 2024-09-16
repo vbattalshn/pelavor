@@ -1,11 +1,10 @@
-import Link from "next/link";
-import Layout from "@/components/dashboardLayout"
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Dashboard() {
-  return (
-    <Layout >
-      <Link href="/dashboard/create-list">Create List</Link>
-      <Link href="/dashboard/lists">Lists</Link>
-    </Layout>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/dashboard/lists");
+  }, [])
 }
