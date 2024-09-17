@@ -15,6 +15,8 @@ import Arrow from "@/assets/icons/arrow";
 import UnderConstruction from "@/components/underConstruction";
 import toast from "react-hot-toast";
 import Footer from "@/components/footer";
+import AddComment from "@/components/comments/addComment";
+import GetComments from "@/components/comments/comments";
 
 export default function List() {
   const [listData, setListData] = useState([]);
@@ -88,10 +90,10 @@ export default function List() {
                     <ListContent words={listData.words} />
                   </TabPanel>
                   <TabPanel>
-                    <UnderConstruction />
+                    <Comments url={url} />
                   </TabPanel>
                   <TabPanel>
-                    <UnderConstruction />
+                    <UnderConstruction  />
                   </TabPanel>
                 </TabPanels>
               </TabGroup>
@@ -283,4 +285,14 @@ function WordContent({ index, word }) {
       ) : null}
     </div>
   );
+}
+
+function Comments({ url }){
+  const [refreshTurn, setRefreshTurn] = useState(0)
+  return(
+    <div className="flex flex-col gap-2 py-2">
+      <GetComments url={url} refresh={refreshTurn} />
+      <AddComment url={url} refresh={refreshTurn} setRefresh={setRefreshTurn} />
+    </div>
+  )
 }

@@ -5,7 +5,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import apiClient from '@/lib/api';
 import { useEffect } from 'react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
-
+import { Analytics } from "@vercel/analytics/react"
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
@@ -38,6 +38,7 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
       <Toaster position="left-top" />
       <SpeedInsights/>
+      <Analytics />
     </>
   );
 }
