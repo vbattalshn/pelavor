@@ -40,7 +40,7 @@ export default function GetComments({ url, refresh }) {
           />
         ))
       ) : (
-        comments.length > 0 ? (
+        loading === true ? (
           <CommentPlaceholder />
         ) : (
           <NoCommentHolder />
