@@ -6,33 +6,46 @@ import Image from "next/image";
 import VerificationBadge from "@/assets/icons/verificationBadge";
 import More from "@/assets/icons/more";
 import Like from "@/assets/icons/like";
+import NoComment from "@/assets/icons/noComment";
 
 export default function GetComments({ url, refresh }) {
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const data = { url };
 
     apiClient
       .post("/get-comments", data)
       .then((response) => setComments(response.data.data.comments))
-      .catch((error) => console.log(error));
-  }, [url, refresh])
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }, [url, refresh]);
 
   return (
     <div className="flex flex-col gap-2 overflow-hidden">
-      {comments.map((comment, index) => (
-        <Comment
-          username={comment.user.username}
-          profile={comment.user.Profile_photo}
-          verification={comment.user.User_verification_status}
-          date={comment.date}
-          comment={comment.comment}
-          comment_id={comment.comment_uniq_id}
-          isLike={comment.is_liked}
-          likeCount={comment.likes_count}
-        />
-      ))}
+      {loading === false && comments.length > 0 ? (
+        comments.map((comment, index) => (
+          <Comment
+            key={index}
+            username={comment.user.username}
+            profile={comment.user.Profile_photo}
+            verification={comment.user.User_verification_status}
+            date={comment.date}
+            comment={comment.comment}
+            comment_id={comment.comment_uniq_id}
+            isLike={comment.is_liked}
+            likeCount={comment.likes_count}
+          />
+        ))
+      ) : (
+        comments.length > 0 ? (
+          <CommentPlaceholder />
+        ) : (
+          <NoCommentHolder />
+        )
+      )}
     </div>
   );
 }
@@ -90,7 +103,10 @@ function Comment({
       <div className="flex gap-2">
         <button
           onClick={() => likeComment(comment_id)}
-          className={"p-2 flex gap-2 rounded-lg bg-neutral-300/25 text-neutral-800 transition-all  " + (isLiked == true ? "bg-blue-500 !text-neutral-200" : null)}
+          className={
+            "p-2 flex gap-2 rounded-lg bg-neutral-300/25 text-neutral-800 transition-all " +
+            (isLiked == true ? "!bg-blue-500 !text-neutral-200" : null)
+          }
         >
           <Like />
           {LikedsCount} Likes
@@ -98,4 +114,44 @@ function Comment({
       </div>
     </div>
   );
+}
+
+function CommentPlaceholder() {
+  return (
+    <div className="bg-neutral-200/50 rounded-lg flex flex-col gap-2 p-2 animate-pulse">
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2 items-center justify-center">
+          <div className="flex gap-1 items-center justify-center ">
+            <span className="rounded-lg w-12 h-12 bg-neutral-300" />
+            <span className=" bg-neutral-300 w-20 h-6 rounded-lg" />
+          </div>
+          <span className="bg-neutral-300 w-20 h-6 rounded-lg" />
+        </div>
+        <span className="w-8 h-8 rounded-lg bg-neutral-300" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <span className="w-full h-5 rounded-full bg-neutral-300" />
+        <span className="w-full h-5 rounded-full bg-neutral-300" />
+        <span className="w-3/4 h-5 rounded-full bg-neutral-300" />
+      </div>
+      <div className="flex gap-2">
+        <span className="w-24 h-10 rounded-lg bg-neutral-300" />
+        <span className="w-24 h-10 rounded-lg bg-neutral-300" />
+      </div>
+    </div>
+  );
+}
+
+function NoCommentHolder() {
+  return(
+    <div className="flex flex-col gap-2 py-4 mx-auto max-w-md items-center justify-center">
+      <NoComment className="w-60 h-60" />
+      <span className="font-bold text-neutral-800 text-xl">
+        Hiç yorum yapılmamış
+      </span>
+      <span className="font-normal text-center text-neutral-600">
+        Listelere yorum yaparak profilinin puanını yükseltip diğer kullanıcıların önüne geçebilirsin
+      </span>
+    </div>
+  )
 }
