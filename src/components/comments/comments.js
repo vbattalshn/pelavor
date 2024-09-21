@@ -7,6 +7,7 @@ import VerificationBadge from "@/assets/icons/verificationBadge";
 import More from "@/assets/icons/more";
 import Like from "@/assets/icons/like";
 import NoComment from "@/assets/icons/noComment";
+import toast from "react-hot-toast";
 
 export default function GetComments({ url, refresh }) {
   const [comments, setComments] = useState([]);
@@ -72,7 +73,7 @@ function Comment({
         setIsLiked(response.data.data.is_liked);
         setlikedsCount(response.data.data.likeds_count);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => toast.error(error.response?.data?.message || "Bir hata oluştu"));
   }
 
   return (
