@@ -34,15 +34,21 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Pelavor</title>
-        <meta
-          name="description"
-          content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!"
-        />
-        <meta
-          name="keywords"
-          content="English vocabulary learning,Learn English words,Vocabulary builder,Improve English vocabulary,English word lists,English vocabulary exercises,Online vocabulary practice,English learning resources,Study English vocabulary,English words and meanings,English vocabulary quizzes,Effective vocabulary learning,English vocabulary flashcards,English vocabulary for beginners,Advanced English vocabulary"
-        />
+      <title>Pelavor</title>
+      <meta name="title" content="Pelavor" />
+      <meta name="description" content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!" />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://pelavor.com/" />
+      <meta property="og:title" content="Pelavor" />
+      <meta property="og:description" content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!" />
+      <meta property="og:image" content="https://files.pelavor.com/pelavor.png" />
+
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:url" content="https://pelavor.com/" />
+      <meta property="twitter:title" content="Pelavor" />
+      <meta property="twitter:description" content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!" />
+      <meta property="twitter:image" content="https://files.pelavor.com/pelavor.png" />
       </Head>
       <Header />
       <div className="w-full flex items-center justify-center bg-mainImage bg-auto bg-center main-section">

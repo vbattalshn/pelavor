@@ -1,7 +1,14 @@
-import Footer from "@/components/footer";
 import Header from "@/components/header";
+import apiClient from "@/lib/api";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import VerificationBadge from "@/assets/icons/verificationBadge";
-import axios from "axios";
+import More from "@/assets/icons/more";
+import ProfileHeaderLoading from "@/components/profilePage/profileHeaderLoading";
+import UserTags from "@/components/profilePage/userTags";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 import {
   Dialog,
   DialogPanel,
@@ -10,144 +17,43 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import More from "@/assets/icons/more";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { useRouter } from "next/router";
-import apiClient from "@/lib/api";
-import toast from "react-hot-toast";
-import UserTags from "@/components/profilePage/userTags";
 import PageFilter from "@/components/page/filter";
 import ListCard from "@/components/listCard";
-import Head from "next/head";
+import Footer from "@/components/footer";
 import ListCardLoading from "@/components/listCardLoading";
 
-export async function getServerSideProps(context) {
-  const { slug } = context.params;
-
-  try {
-    const response = await axios({
-      baseURL: "https://api.pelavor.com/get-user-page-data",
-      method: "post",
-      headers: {
-        Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
-        "Content-Type": "application/json",
-      },
-      data: {
-        username: slug,
-      },
-    });
-
-    const lists = await axios({
-      baseURL: "https://api.pelavor.com/get-user-lists",
-      method: "post",
-      headers: {
-        Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
-        "Content-Type": "application/json",
-      },
-      data: {
-        username: slug,
-        order: "created_date",
-      },
-    });
-
-    const userData = response.data.data;
-    const userLists = lists.data.data;
-
-    console.log(userLists);
-
-    return {
-      props: {
-        userData,
-        userLists,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-      props: {
-        userData: null,
-        userLists: [],
-      },
-    };
-  }
-}
-
-const User = ({ userData, userLists }) => {
+export default function User() {
   const router = useRouter();
-
-  return (
-    <>
-      <Head>
-        <title>
-          {userData.fullname + " - " + userData.username + " | Pelavor"}
-        </title>
-        <meta
-          name="title"
-          content={userData.fullname + " - " + userData.username + " | Pelavor"}
-        />
-        <meta name="description" content={userData.Profile_biography} />
-
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content={"https://pelavor.com/user/" + userData.username}
-        />
-        <meta
-          property="og:title"
-          content={userData.fullname + " - " + userData.username + " | Pelavor"}
-        />
-        <meta property="og:description" content={userData.Profile_biography} />
-        <meta property="og:image" content={userData.Profile_photo} />
-
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta
-          property="twitter:url"
-          content={"https://pelavor.com/user/" + userData.username}
-        />
-        <meta
-          property="twitter:title"
-          content={userData.fullname + " - " + userData.username + " | Pelavor"}
-        />
-        <meta
-          property="twitter:description"
-          content={userData.Profile_biography}
-        />
-        <meta property="twitter:image" content={userData.Profile_photo} />
-      </Head>
-      <Header />
-      <UserPageHead
-        username={router.query.slug}
-        userData={userData}
-        userLists={userLists}
-      />
-      <Footer />
-    </>
-  );
-};
-
-const UserPageHead = ({ username, userData, userLists }) => {
-  const [showFollowBtn, setShowFollowBtn] = useState(true);
-  const [isFollowed, setIsFollowed] = useState(userData.isFollowed);
-  const [showPreview, setShowPreview] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setShowFollowBtn(false);
-    const session = Cookies.get("session");
-    if (session != undefined) {
-      if (JSON.parse(Cookies.get("user_data")).username != userData.username) {
-        setShowFollowBtn(true);
-      }
+    if (router.isReady) {
+      setLoading(false);
     }
+  }, [router.isReady]);
+  return (
+    <div>
+      <Header />
+      {loading == false ? (
+        <UserPageHead username={router.query.slug} />
+      ) : (
+        <ProfileHeaderLoading />
+      )}
+      <Footer />
+    </div>
+  );
+}
 
-    console.log("as");
-  }, []);
+function UserPageHead({ username }) {
+  const [userData, setUserData] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggined, setIsLoggined] = useState(false);
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showPreview, setShowPreview] = useState(false);
+
+  const router = useRouter();
 
   const follow = () => {
     const data = {
@@ -159,10 +65,11 @@ const UserPageHead = ({ username, userData, userLists }) => {
       .then((response) => {
         setIsFollowed(true);
         userData.follower_Count = userData.follower_Count + 1;
+        setUserData(userData);
       })
       .catch((e) => {
         console.error("Error fetching list data:", e);
-        toast.error(e.response?.data?.message || "Bir hata oluştu");
+        toast.error("Bir hata oluştu");
       });
   };
 
@@ -176,14 +83,49 @@ const UserPageHead = ({ username, userData, userLists }) => {
       .then((response) => {
         setIsFollowed(false);
         userData.follower_Count = userData.follower_Count - 1;
+        setUserData(userData);
       })
       .catch((e) => {
         console.error("Error fetching list data:", e);
-        toast.error(e.response?.data?.message || "Bir hata oluştu");
+        toast.error("Bir hata oluştu");
       });
   };
 
-  return (
+  useEffect(() => {
+    setLoading(true);
+
+    const data = {
+      username: username,
+    };
+
+    apiClient
+      .post("/get-user-page-data", data)
+      .then((response) => {
+        setUserData(response.data.data);
+        setIsFollowed(
+          response.data.data.isFollowed ? response.data.data.isFollowed : false
+        );
+      })
+      .catch((e) => {
+        console.error("Error fetching list data:", e);
+        if (e.response?.data?.message) {
+          toast.error(e.response?.data?.message);
+          if (e.response?.data?.status == "404") {
+            router.push("/404");
+          }
+        }
+      })
+      .finally(() => setLoading(false));
+
+    const session = Cookies.get("session");
+    setIsLoggined(session != undefined ? true : false);
+    if (session != undefined) {
+      setCurrentUser(JSON.parse(Cookies.get("user_data")));
+    }
+  }, []);
+
+  return loading == false ? (
+
     <div className="max-w-5xl mx-auto py-2 animate-loaded">
       <Image
         src={userData.Profile_banner}
@@ -215,7 +157,7 @@ const UserPageHead = ({ username, userData, userLists }) => {
           </div>
         </div>
         <div className="flex gap-2">
-          {showFollowBtn ? (
+          {isLoggined && currentUser.username != userData.username ? (
             isFollowed ? (
               <button
                 onClick={unfollow}
@@ -287,7 +229,6 @@ const UserPageHead = ({ username, userData, userLists }) => {
         </div>
       </div>
       <UserTags userData={userData} />
-      <UserLists userLists={userLists} username={username} />
       <Dialog
         open={showPreview}
         onClose={() => setShowPreview(false)}
@@ -305,14 +246,21 @@ const UserPageHead = ({ username, userData, userLists }) => {
           </DialogPanel>
         </div>
       </Dialog>
+      <UserLists username={userData.username} />
     </div>
+    ) : (
+    <ProfileHeaderLoading />
   );
-};
+}
 
-const UserLists = ({ username, userLists }) => {
-  const [lists, setLists] = useState(userLists);
+function UserLists({ username }) {
+  const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState("created_date");
+
+  useEffect(() => {
+    getLists();
+  }, []);
 
   useEffect(() => {
     getLists();
@@ -320,9 +268,9 @@ const UserLists = ({ username, userLists }) => {
 
   function getLists() {
     setLoading(true);
-    var data = {
+    var data = { 
       username,
-      order,
+      order
     };
 
     apiClient
@@ -338,9 +286,7 @@ const UserLists = ({ username, userLists }) => {
   }
   return (
     <>
-      {lists.length > 0 && loading == false ? (
-        <PageFilter setOrder={setOrder} />
-      ) : null}
+      <PageFilter setOrder={setOrder} />
       <div className="max-w-5xl w-full mx-auto place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-center">
         {lists.length > 0 && loading == false ? (
           lists.map((list, index) => (
@@ -355,12 +301,15 @@ const UserLists = ({ username, userLists }) => {
             />
           ))
         ) : (
-          <>{lists.length > 0 ? <ListsLoading /> : "Oluşturulmuş liste yok"}</>
+          <>
+          {loading == true ? <ListsLoading /> : "Oluşturulmuş liste yok"}
+          </>
         )}
       </div>
     </>
   );
-};
+}
+
 
 const ListsLoading = () => {
   return (
@@ -371,5 +320,3 @@ const ListsLoading = () => {
     </div>
   );
 }
-
-export default User;
