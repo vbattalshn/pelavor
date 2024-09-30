@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import Footer from "@/components/footer";
 import AddComment from "@/components/comments/addComment";
 import GetComments from "@/components/comments/comments";
+import ListLoading from "@/components/listLoading";
 
 export default function List() {
   const [listData, setListData] = useState([]);
@@ -57,7 +58,7 @@ export default function List() {
     <div>
       <Header />
       {loading ? (
-        "loading..."
+        <ListLoading />
       ) : (
         <main>
           <div>

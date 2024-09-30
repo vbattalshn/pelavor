@@ -140,7 +140,7 @@ export default function Play() {
 
       <Header />
       {loading == false && data.progress_percent != 100 ? (
-        <div className="max-w-5xl min-w-[clac(100vh - 60px)]  mx-auto  flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
+        <div className="max-w-5xl min-w-[clac(100vh - 60px)] mx-auto  flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
           <div className="w-full h-4 rounded-full bg-neutral-200 overflow-hidden">
             <span
               className={

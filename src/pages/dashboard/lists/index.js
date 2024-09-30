@@ -24,7 +24,7 @@ export default function Lists() {
 
   return (
     <Layout>
-      <div className="max-w-screen-2xl w-full place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-start">
+      <div className="max-w-screen-xl w-full place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-start">
         {lists.length > 0 || loading==false ? (
           lists.map((list, index) => (
             <ListCard
