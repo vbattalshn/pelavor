@@ -18,23 +18,44 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Head from "next/head";
+import cookie from 'cookie';
+import Link from "next/link";
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
+  const { req } = context;
 
   try {
-    const response = await axios({
-      baseURL: "https://api.pelavor.com/get-list",
-      method: "post",
-      headers: {
-        Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
-        "Content-Type": "application/json",
-      },
-      data: {
-        url: slug,
-      },
-    });
+    const cookies = cookie.parse(req.headers.cookie || '');
+    let response = null;
 
+    if (cookies.session) {
+      response = await axios({
+        baseURL: "https://api.pelavor.com/get-list",
+        method: "post",
+        headers: {
+          Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
+          "Content-Type": "application/json",
+          "x-user-token": cookies.session
+        },
+        data: {
+          url: slug,
+        },
+      });
+    }else{
+      response = await axios({
+        baseURL: "https://api.pelavor.com/get-list",
+        method: "post",
+        headers: {
+          Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
+          "Content-Type": "application/json",
+        },
+        data: {
+          url: slug,
+        },
+      });
+    }
+  
     const listData = response.data.data;
 
     return {
@@ -161,6 +182,7 @@ const ListHead = ({
           width={200}
           height={200}
           className="w-48 h-48 rounded-lg object-cover"
+          alt={title + " listenin görsel"}
         />
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-3xl">{title}</h1>

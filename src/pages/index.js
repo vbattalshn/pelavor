@@ -2,19 +2,62 @@ import BugReporter from "@/components/bugReporter";
 import Header from "@/components/header";
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import Image from "next/image";
 import ArrowRight from "@/assets/icons/arrowRight";
 import Creator from "@/components/creator";
-import apiClient from "@/lib/api";
-import toast from "react-hot-toast";
 import Arrow from "@/assets/icons/arrow";
 import Contact from "@/components/contact";
 import Footer from "@/components/footer";
-import ListCardLoading from "@/components/listCardLoading";
+import axios from "axios";
 
-export default function Home() {
+export async function getServerSideProps() {    
+  try {
+    const ListsResponse = await axios({
+      baseURL: "https://api.pelavor.com/get-best-lists",
+      method: "get",
+      headers: {
+        Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const storiesResponse = await axios({
+      baseURL: "https://blog.pelavor.com/wp-json/wp/v2/posts?per_page=3",
+      method: "get",
+      headers: {
+        Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const lists = ListsResponse.data.data;
+    const stories = storiesResponse.data;
+
+    return {
+      props: {
+        lists,
+        stories
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/404",
+      },
+      props: {
+        lists: [],
+        stories: []
+      },
+    };
+  }
+}
+
+
+const Home = ({lists, stories}) => {
   function scrollToElementBottom(className) {
     const element = document.querySelector(`.${className}`);
 
@@ -72,8 +115,8 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <HotLists />
-      <RecentlyPublishedStories />
+      <HotLists lists={lists} />
+      <RecentlyPublishedStories stories={stories} />
       <SSS />
       {/*<BestUsers />*/}
       {/*<ContactSection />*/}
@@ -82,24 +125,7 @@ export default function Home() {
   );
 }
 
-function HotLists() {
-  const [lists, setLists] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    apiClient
-      .get("get-best-lists")
-      .then((response) => {
-        setLists(response.data.data);
-      })
-      .catch((error) =>
-        toast.error(
-          error.response?.data?.message || "Beklenmeyen bir hata oluştu."
-        )
-      )
-      .finally(() => setLoading(false));
-  }, []);
-
+function HotLists({lists}) {
   return (
     <div className="w-full flex items-center justify-center">
       <div className="max-w-5xl w-full mx-auto py-8 px-4 flex items-start justify-center flex-col gap-8">
@@ -108,7 +134,7 @@ function HotLists() {
           desc="Kullanıcılar tarafından en beğenilmiş beğenebileceğini düşündüğümüz listeler."
         />
         <div className="flex gap-4 items-center w-full lg:flex-row flex-col">
-          {lists.length > 0 && loading == false ? (
+          {
             lists.map((list, index) => (
               <NewListCard
                 image={list.image}
@@ -117,50 +143,23 @@ function HotLists() {
                 url={list.url}
                 user={list.user}
                 date={list.created_date}
+                key={index}
               />
             ))
-          ) : (
-            <>
-              {loading == true ? (
-                <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
-                  <ListCardLoading />
-                  <ListCardLoading />
-                  <ListCardLoading />
-                </div>
-              ) : (
-                "No lists available"
-              )}
-            </>
-          )}
+          }
         </div>
       </div>
     </div>
   );
 }
 
-function RecentlyPublishedStories() {
-  const [stories, setStories] = useState([]);
-  const [loading, setLoading] = useState(true);
+function RecentlyPublishedStories({stories}) {
 
   function cleanHTML(input) {
     let cleanedText = input.replace(/<\/?p>/gi, "");
     cleanedText = cleanedText.replace(/&[^;]+;/g, "");
     return cleanedText;
   }
-
-  useEffect(() => {
-    apiClient
-      .get("https://blog.pelavor.com/wp-json/wp/v2/posts?per_page=3")
-      .then((response) => {
-        setStories(response.data);
-      })
-      .catch((error) =>
-        toast.error(
-          error.response?.data?.message || "Beklenmeyen bir hata oluştu."
-        )
-      )
-      .finally(() => setLoading(false));
-  }, []);
 
   return (
     <div className="w-full flex items-center justify-center bg-neutral-200/50 bg-sectionBgImage bg-auto bg-center">
@@ -170,10 +169,10 @@ function RecentlyPublishedStories() {
           desc="Tüm dil seviyelerine ayrı ayrı yazılmış hikayelerden en son yayınlananlar."
         />
         <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
-          {stories.length > 0 && loading == false ? (
+          {
             stories.map((story, index) => (
               <NewListCard
-                index={index}
+                key={index}
                 image={
                   story.better_featured_image.media_details.sizes.medium_large
                     .source_url
@@ -184,20 +183,7 @@ function RecentlyPublishedStories() {
                 new_tab={true}
                 bgColor="bg-neutral-100"
               />
-            ))
-          ) : (
-            <>
-              {loading == true ? (
-                <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
-                  <ListCardLoading />
-                  <ListCardLoading />
-                  <ListCardLoading />
-                </div>
-              ) : (
-                "No lists available"
-              )}
-            </>
-          )}
+            ))}
         </div>
       </div>
     </div>
@@ -330,6 +316,7 @@ function NewListCard({
         width={320}
         height={180}
         className="w-80 h-[180px] cover object-cover"
+        alt={title + " listenin görseli"}
       />
       <div className="flex w-full px-4 py-3 gap-2 flex-col">
         {user != null ? (
@@ -380,3 +367,5 @@ function SectionTitle({ title, desc }) {
     </div>
   );
 }
+
+export default Home;

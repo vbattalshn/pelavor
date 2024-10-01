@@ -146,6 +146,7 @@ function ListHead({
           width={200}
           height={200}
           className="w-48 h-48 rounded-lg object-cover"
+          alt={title + " listenin görseli"}
         />
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-3xl">{title}</h1>

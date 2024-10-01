@@ -26,6 +26,7 @@ export default function ListCard({
         width={320}
         height={180}
         className="w-80 h-[180px] cover object-cover"
+        alt={title + " adlı listenin görseli"}
       />
       <div className="flex w-full px-4 py-3 gap-2 flex-col">
         {user != null ? (

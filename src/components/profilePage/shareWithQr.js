@@ -40,12 +40,14 @@ export default function ShareWithQr({
                 width={396}
                 height={144}
                 className="max-w-96 w-full h-36 rounded-xl object-cover border-2 border-neutral-300 shadow"
+                alt={username + " banner"}
               />
               <Image
                 src={profile}
                 width={96}
                 height={96}
                 className="max-w-24 h-24 w-full rounded-full border-2 border-neutral-300 mt-[-56px] shadow"
+                alt={profile + " prfile photo"}
               />
               <div className="flex flex-col items-center gap-1">
                 <span className="font-medium text-sm text-neutral-700">
