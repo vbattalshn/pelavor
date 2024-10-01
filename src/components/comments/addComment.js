@@ -11,8 +11,6 @@ export default function AddComment({ url, refresh, setRefresh }) {
   function SendComment() {
     setLoading(true);
 
-    console.log(url);
-
     var data = {
       url: url,
       comment,

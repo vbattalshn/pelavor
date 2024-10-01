@@ -18,7 +18,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Head from "next/head";
-import cookie from 'cookie';
+import cookie from "cookie";
 import Link from "next/link";
 
 export async function getServerSideProps(context) {
@@ -26,23 +26,23 @@ export async function getServerSideProps(context) {
   const { req } = context;
 
   try {
-    const cookies = cookie.parse(req.headers.cookie || '');
+    const cookies = cookie.parse(req.headers.cookie || "");
     let response = null;
 
     if (cookies.session) {
       response = await axios({
-        baseURL: "https://api.pelavor.com/get-list",
+        baseURL: "https://api.pelavor.com//get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
           "Content-Type": "application/json",
-          "x-user-token": cookies.session
+          "x-user-token": cookies.session,
         },
         data: {
           url: slug,
         },
       });
-    }else{
+    } else {
       response = await axios({
         baseURL: "https://api.pelavor.com/get-list",
         method: "post",
@@ -55,7 +55,7 @@ export async function getServerSideProps(context) {
         },
       });
     }
-  
+
     const listData = response.data.data;
 
     return {
@@ -66,6 +66,8 @@ export async function getServerSideProps(context) {
     };
   } catch (error) {
     console.error("Error fetching user data:", error);
+
+    toast.error(error.response?.data?.message || "Bir hata oluştu");
 
     return {
       redirect: {
@@ -95,7 +97,10 @@ const List = ({ listData, url }) => {
         <meta property="og:image" content={listData.image} />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={"https://pelavor.com/list/" + url} />
+        <meta
+          property="twitter:url"
+          content={"https://pelavor.com/list/" + url}
+        />
         <meta property="twitter:title" content={listData.title} />
         <meta property="twitter:description" content={listData.description} />
         <meta property="twitter:image" content={listData.image} />
@@ -242,7 +247,6 @@ const ListHead = ({
   );
 };
 
-
 function ListContent({ words }) {
   return (
     <div className="flex flex-col bg-neutral-200/50 p-1 gap-1 rounded-lg border border-neutral-200 mb-2 animate-loaded">
@@ -326,14 +330,15 @@ function WordContent({ index, word }) {
   );
 }
 
-function Comments({ url }){
-  const [refreshTurn, setRefreshTurn] = useState(0)
-  return(
+function Comments({ url }) {
+  const [refreshTurn, setRefreshTurn] = useState(0);
+  return (
     <div className="flex flex-col gap-2 py-2">
       <GetComments url={url} refresh={refreshTurn} />
       <AddComment url={url} refresh={refreshTurn} setRefresh={setRefreshTurn} />
     </div>
-  )
+  );
 }
+
 
 export default List;

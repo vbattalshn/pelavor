@@ -28,7 +28,7 @@ export async function getServerSideProps(context) {
 
   try {
     const response = await axios({
-      baseURL: "https://api.pelavor.com/get-user-page-data",
+      baseURL: "https://api.pelavor.com//get-user-page-data",
       method: "post",
       headers: {
         Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
@@ -54,8 +54,6 @@ export async function getServerSideProps(context) {
 
     const userData = response.data.data;
     const userLists = lists.data.data;
-
-    console.log(userLists);
 
     return {
       props: {
@@ -145,8 +143,6 @@ const UserPageHead = ({ username, userData, userLists }) => {
         setShowFollowBtn(true);
       }
     }
-
-    console.log("as");
   }, []);
 
   const follow = () => {

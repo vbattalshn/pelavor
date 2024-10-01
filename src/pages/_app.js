@@ -4,6 +4,7 @@ import { Toaster, toast } from "react-hot-toast";
 import apiClient from "@/lib/api";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import NextTopLoader from 'nextjs-toploader';
 
 function MyApp({ Component, pageProps }) {
   apiClient.interceptors.response.use(
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
+      <NextTopLoader color="#4f46e5" />
       <BugReporter />
       <Component {...pageProps} />
       <Toaster position="left-top" />

@@ -20,7 +20,7 @@ export default function GetComments({ url, refresh }) {
     apiClient
       .post("/get-comments", data)
       .then((response) => setComments(response.data.data.comments))
-      .catch((error) => console.log(error))
+      .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, [url, refresh]);
 

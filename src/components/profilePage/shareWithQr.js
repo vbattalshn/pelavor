@@ -27,7 +27,7 @@ export default function ShareWithQr({
     <>
       <button
         onClick={toggleOpened}
-        className="flex gap-2 p-2 rounded-lg bg-neutral-200 text-neutral-700"
+        className="inline-flex gap-2 p-2 rounded-lg bg-neutral-200 text-neutral-700"
       >
         <Qr />
       </button>
