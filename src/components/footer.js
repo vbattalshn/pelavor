@@ -24,10 +24,10 @@ export default function Footer() {
                 <div className="flex-1 flex flex-col gap-2">
                     <span className="text-neutral-800 font-bold">Sosyal Medya</span>
                     <div className="flex gap-1 text-neutral-700">
-                        <a href="https://instagram.com/pelavorgo" target="_blank" className="bg-neutral-300/50 p-2 rounded-lg hocus:bg-neutral-300 text-neutral-700 hocus:text-neutral-900 transition-all focus:ring focus:ring-indigo-600/50" >
+                        <a href="https://instagram.com/pelavorgo" rel="nofollow" target="_blank" className="bg-neutral-300/50 p-2 rounded-lg hocus:bg-neutral-300 text-neutral-700 hocus:text-neutral-900 transition-all focus:ring focus:ring-indigo-600/50" >
                             <Instagram />
                         </a>
-                        <a href="https://tiktok.com/@pelavorgo" target="_blank" className="bg-neutral-300/50 p-2 rounded-lg hocus:bg-neutral-300 text-neutral-700 hocus:text-neutral-900 transition-all focus:ring focus:ring-indigo-600/50">
+                        <a href="https://tiktok.com/@pelavorgo" rel="nofollow" target="_blank" className="bg-neutral-300/50 p-2 rounded-lg hocus:bg-neutral-300 text-neutral-700 hocus:text-neutral-900 transition-all focus:ring focus:ring-indigo-600/50">
                             <Tiktok />
                         </a>
                     </div>

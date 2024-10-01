@@ -78,13 +78,13 @@ function Modal({ toggleOpened }) {
             id="subject"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="!bg-neutral-100"
+            className="!bg-neutral-100/50"
           />
         </label>
         <label className="flex flex-col gap-1 font-semibold">
           Açıklama
           <textarea
-            className="w-full h-48 bg-neutral-100 px-4 py-3 resize-none border border-neutral-300 rounded-lg text-neutral-900 font-medium text-base"
+            className="w-full h-48 bg-neutral-100/50 px-4 py-3 resize-none border border-neutral-300 rounded-lg text-neutral-900 font-medium text-base"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
