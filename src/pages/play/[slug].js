@@ -41,6 +41,14 @@ export default function Play() {
     }
   }, [url]);
 
+  useEffect(() => {
+    if ("visualViewport" in window) {
+      on_height_change(function (height) {
+        document.documentElement.style.setProperty("--terminal-force-height",height);
+      });
+    }
+  })
+
   const closeSheet = () => {
     getRandomWord();
     setCorrectAnswer([]);
@@ -112,6 +120,18 @@ export default function Play() {
     }
   };
 
+  function on_height_change(callback) {
+    let { height } = window.visualViewport;
+    callback(height);
+    window.visualViewport.addEventListener("resize", function (event) {
+      const { height: newHeight } = window.visualViewport;
+      if (height !== newHeight) {
+        height = newHeight;
+        callback(height);
+      }
+    });
+  }
+
   function getMeanings() {
     setIsSending(true);
     const wordData = {
@@ -139,11 +159,13 @@ export default function Play() {
         ) : (
           <title>Yükleniyor... | Pelavor</title>
         )}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"/>
+
       </Head>
 
       <Header />
       {loading == false && data.progress_percent != 100 ? (
-        <div className="max-w-5xl min-w-[clac(100dvh - 60px)] mx-auto  flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
+        <div className="max-w-5xl min-w-[clac(100lvh - 60px)] !min-w-[clac(--terminal-force-height) * 1px] mx-auto  flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 relative">
           <div className="w-full h-4 rounded-full bg-neutral-200 overflow-hidden">
             <span
               className={
@@ -291,13 +313,13 @@ function CompeletedPage() {
   );
 }
 
-function Speak({text}) {
+function Speak({ text }) {
   const [autoSpeak, setAutoSpeak] = useState(false);
   useEffect(() => {
     const cookieValue = Cookies.get("autoSpeak");
 
     if (cookieValue) {
-      const isAutoSpeak = cookieValue === 'true'
+      const isAutoSpeak = cookieValue === "true";
       setAutoSpeak(isAutoSpeak);
 
       if (isAutoSpeak) {
@@ -306,23 +328,21 @@ function Speak({text}) {
     }
   }, [text]);
 
-
   const ToggleAutoSpeak = () => {
     Cookies.set("autoSpeak", !autoSpeak);
     setAutoSpeak(!autoSpeak);
-  }
-
+  };
 
   const speak = (text) => {
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = "en-US"; // Dil İngilizce
-    speech.rate = .75; // Konuşma hızı (1 normal hız)
+    speech.rate = 0.75; // Konuşma hızı (1 normal hız)
     speech.pitch = 1;
 
     window.speechSynthesis.speak(speech);
   };
 
-  return(
+  return (
     <div className="flex flex-col gap-2 items-center justify-center">
       <button
         onClick={() => speak(text)}
@@ -331,10 +351,19 @@ function Speak({text}) {
         <Volume className="w-7 h-7" />
         <span>Seslendir</span>
       </button>
-      <button onClick={ToggleAutoSpeak} for="autoSpeak" className={"p-2 flex gap-2 bg-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden " + (autoSpeak ? "!bg-indigo-600/75 border border-indigo-600 !text-neutral-200": "")}>
+      <button
+        onClick={ToggleAutoSpeak}
+        for="autoSpeak"
+        className={
+          "p-2 flex gap-2 bg-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden " +
+          (autoSpeak
+            ? "!bg-indigo-600/75 border border-indigo-600 !text-neutral-200"
+            : "")
+        }
+      >
         <PlayAdd className="w-7 h-7" />
         Otomatik seslendir
       </button>
     </div>
-  )
+  );
 }
