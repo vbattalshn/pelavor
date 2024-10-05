@@ -13,7 +13,7 @@ import {
 } from "@headlessui/react";
 import CorrectMessage from "./correctmessage";
 
-export default function AddNewWord() {
+export default function AddNewWord({ addWordtoList }) {
   const [word, setWord] = useState("");
   const [error, setError] = useState("");
   const [correct, setCorrect] = useState("");
@@ -35,6 +35,7 @@ export default function AddNewWord() {
       .post("/save_word", data)
       .then((response) => {
         setCorrect(response.data.message);
+        addWordtoList(word);
         setWord("");
         setMeanings([""]);
       })

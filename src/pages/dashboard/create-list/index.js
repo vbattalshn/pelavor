@@ -49,7 +49,7 @@ export default function CreateList() {
       <main className="max-w-screen-2xl flex gap-2 flex-col lg:flex-row">
         <div className="w-full p-2 flex flex-col gap-2">
           <AddWord addWordtoList={addWordtoList} />
-          <AddNewWord />
+          <AddNewWord addWordtoList={addWordtoList} />
           <ListSettings listData={listData} trashData={trash} />
         </div>
         <div className="w-full p-2 flex flex-col gap-2">
