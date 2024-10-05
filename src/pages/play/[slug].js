@@ -13,6 +13,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Ad1 from "@/components/ads/ad1";
 import Footer from "@/components/footer";
+import Volume from "@/assets/icons/volume";
+import PlayAdd from "@/assets/icons/playAdd";
+import Cookies from "js-cookie";
 
 export default function Play() {
   const [answer, setAnswer] = useState();
@@ -140,7 +143,7 @@ export default function Play() {
 
       <Header />
       {loading == false && data.progress_percent != 100 ? (
-        <div className="max-w-5xl min-w-[clac(100vh - 60px)] mx-auto  flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
+        <div className="max-w-5xl min-w-[clac(100dvh - 60px)] mx-auto  flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
           <div className="w-full h-4 rounded-full bg-neutral-200 overflow-hidden">
             <span
               className={
@@ -153,12 +156,16 @@ export default function Play() {
           </div>
           <h1 className="font-semibold text-neutral-700">{data.title}</h1>
           {answerIsCorrect == null ? (
-            <div className="bg-neutral-200 px-16 py-12 font-black font-mono rounded-lg text-5xl text-neutral-800">
-              {data.word}
-            </div>
+            <>
+              <div className="bg-neutral-200 px-16 py-12 font-black font-mono rounded-lg text-5xl text-neutral-800">
+                {data.word}
+              </div>
+              <Speak text={data.word} />
+            </>
           ) : (
             <ResultAnimation correct={answerIsCorrect} />
           )}
+
           <Ad1 />
           <div className="fixed max-w-5xl w-11/12 p-4 flex gap-2 bottom-4 bg-neutral-200 rounded-xl sm:flex-row flex-col z-50">
             <Button
@@ -282,4 +289,52 @@ function CompeletedPage() {
       </span>
     </div>
   );
+}
+
+function Speak({text}) {
+  const [autoSpeak, setAutoSpeak] = useState(false);
+  useEffect(() => {
+    const cookieValue = Cookies.get("autoSpeak");
+
+    if (cookieValue) {
+      const isAutoSpeak = cookieValue === 'true'
+      setAutoSpeak(isAutoSpeak);
+
+      if (isAutoSpeak) {
+        speak(text);
+      }
+    }
+  }, [text]);
+
+
+  const ToggleAutoSpeak = () => {
+    Cookies.set("autoSpeak", !autoSpeak);
+    setAutoSpeak(!autoSpeak);
+  }
+
+
+  const speak = (text) => {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US"; // Dil İngilizce
+    speech.rate = .75; // Konuşma hızı (1 normal hız)
+    speech.pitch = 1;
+
+    window.speechSynthesis.speak(speech);
+  };
+
+  return(
+    <div className="flex flex-col gap-2 items-center justify-center">
+      <button
+        onClick={() => speak(text)}
+        className="p-2 flex gap-2 bg-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden"
+      >
+        <Volume className="w-7 h-7" />
+        <span>Seslendir</span>
+      </button>
+      <button onClick={ToggleAutoSpeak} for="autoSpeak" className={"p-2 flex gap-2 bg-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden " + (autoSpeak ? "!bg-indigo-600/75 border border-indigo-600 !text-neutral-200": "")}>
+        <PlayAdd className="w-7 h-7" />
+        Otomatik seslendir
+      </button>
+    </div>
+  )
 }
