@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import RegisteredList from "@/assets/icons/registeredList";
 
 export default function Sidebar() {
   const [showMenu, setShowMenu] = useState(false);
@@ -91,6 +92,13 @@ export default function Sidebar() {
     },
     {
       id: 1,
+      icon: <RegisteredList />,
+      label: "Kayıt Olduğun Listeler",
+      url: "/dashboard/registered-lists",
+      disabled: false,
+    },
+    {
+      id: 2,
       icon: <Badges />,
       label: "Rozetlerin",
       url: "/dashboard/badges",

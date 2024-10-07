@@ -31,7 +31,7 @@ export async function getServerSideProps(context) {
 
     if (cookies.session) {
       response = await axios({
-        baseURL: "https://api.pelavor.com//get-list",
+        baseURL: "http://api.pelavor.com//get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
@@ -44,7 +44,7 @@ export async function getServerSideProps(context) {
       });
     } else {
       response = await axios({
-        baseURL: "https://api.pelavor.com/get-list",
+        baseURL: "http://api.pelavor.com/get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
@@ -116,6 +116,7 @@ const List = ({ listData, url }) => {
         description={listData.description}
         url={url}
         joined={listData.joined}
+        progress={listData.progress}
       />
       <div className="max-w-5xl mx-auto px-2">
         <TabGroup>
@@ -158,6 +159,7 @@ const ListHead = ({
   description,
   url,
   joined,
+  progress
 }) => {
   const [isJoined, setIsJoined] = useState(joined);
 
@@ -213,29 +215,36 @@ const ListHead = ({
           </div>
           <p>{description}</p>
           <div className="flex gap-2">
-            {isJoined ? (
-              <>
-                <Link
-                  href={"/play/" + url}
-                  className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 active:scale-95 hocus:ring hocus:ring-indigo-600/50 hocus:bg-indigo-600 hocus:text-neutral-200 transition-all"
-                >
-                  Başla
-                </Link>
-                {/* <span className="px-4 py-2 rounded-full font-medium text-neutral-200 border border-emerald-600 bg-emerald-600">
-                  Tamamlandı
-                </span>
-                <span className="px-4 py-2 rounded-full font-medium border border-amber-600 text-amber-600">
-                  %28 tamamlandı
-                </span> */}
-              </>
-            ) : (
-              <button
-                onClick={JoinTheList}
-                className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 disabled:opacity-50"
+          {isJoined ? (
+            progress === 0 ? (
+              <Link
+                href={"/play/" + url}
+                className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 active:scale-95 hocus:ring hocus:ring-indigo-600/50 hocus:bg-indigo-600 hocus:text-neutral-200 transition-all"
               >
-                Katıl
-              </button>
-            )}
+                Başla
+              </Link>
+            ) : progress === 100 ? (
+              <span className="px-4 py-2 rounded-full font-medium text-neutral-200 border border-emerald-600 bg-emerald-600">
+                Tamamlandı
+              </span>
+            ) : (
+              <Link
+                href={"/play/" + url}
+                className="px-4 py-2 rounded-full font-medium border border-amber-600 text-neutral-600 relative overflow-hidden hocus:ring hocus:ring-amber-600/50 transition-all ">
+                  <span className="w-full h-full absolute top-0 left-0 block bg-amber-600 z-0" style={{ width: progress + "%" }}></span>
+                  <span className="block z-10 relative">
+                    %{progress} tamamlandı
+                  </span>
+              </Link>
+            )
+          ) : (
+            <button
+              onClick={JoinTheList}
+              className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 disabled:opacity-50"
+            >
+              Katıl
+            </button>
+          )}
 
             {/* <button className="p-2 rounded-full font-medium text-red-600 border !border-red-600 hocus:ring-red-600/50">
               <Bookmark />

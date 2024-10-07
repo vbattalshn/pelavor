@@ -2,7 +2,7 @@ import BugReporter from "@/components/bugReporter";
 import Header from "@/components/header";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import ArrowRight from "@/assets/icons/arrowRight";
 import Creator from "@/components/creator";
@@ -10,8 +10,11 @@ import Arrow from "@/assets/icons/arrow";
 import Contact from "@/components/contact";
 import Footer from "@/components/footer";
 import axios from "axios";
+import apiClient from "@/lib/api";
+import ListCard from "@/components/listCard";
+import Cookies from "js-cookie";
 
-export async function getServerSideProps() {    
+export async function getServerSideProps() {
   try {
     const ListsResponse = await axios({
       baseURL: "https://api.pelavor.com/get-best-lists",
@@ -37,7 +40,7 @@ export async function getServerSideProps() {
     return {
       props: {
         lists,
-        stories
+        stories,
       },
     };
   } catch (error) {
@@ -50,14 +53,21 @@ export async function getServerSideProps() {
       },
       props: {
         lists: [],
-        stories: []
+        stories: [],
       },
     };
   }
 }
 
+const Home = ({ lists, stories }) => {
+  const [isLoginned, setIsLoginned] = useState(false);
 
-const Home = ({lists, stories}) => {
+  useEffect(() => {
+    if (Cookies.get("user_data")) {
+      setIsLoginned(true);
+    }
+  }, []);
+
   function scrollToElementBottom(className) {
     const element = document.querySelector(`.${className}`);
 
@@ -77,21 +87,36 @@ const Home = ({lists, stories}) => {
   return (
     <div>
       <Head>
-      <title>Pelavor</title>
-      <meta name="title" content="Pelavor" />
-      <meta name="description" content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!" />
+        <title>Pelavor</title>
+        <meta name="title" content="Pelavor" />
+        <meta
+          name="description"
+          content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!"
+        />
 
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://pelavor.com/" />
-      <meta property="og:title" content="Pelavor" />
-      <meta property="og:description" content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!" />
-      <meta property="og:image" content="https://files.pelavor.com/pelavor.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://pelavor.com/" />
+        <meta property="og:title" content="Pelavor" />
+        <meta
+          property="og:description"
+          content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!"
+        />
+        <meta
+          property="og:image"
+          content="https://files.pelavor.com/pelavor.png"
+        />
 
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content="https://pelavor.com/" />
-      <meta property="twitter:title" content="Pelavor" />
-      <meta property="twitter:description" content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!" />
-      <meta property="twitter:image" content="https://files.pelavor.com/pelavor.png" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://pelavor.com/" />
+        <meta property="twitter:title" content="Pelavor" />
+        <meta
+          property="twitter:description"
+          content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!"
+        />
+        <meta
+          property="twitter:image"
+          content="https://files.pelavor.com/pelavor.png"
+        />
       </Head>
       <Header />
       <div className="w-full flex items-center justify-center bg-mainImage bg-auto bg-center main-section">
@@ -117,15 +142,16 @@ const Home = ({lists, stories}) => {
       </div>
       <HotLists lists={lists} />
       <RecentlyPublishedStories stories={stories} />
+      {isLoginned ? <RecentlyRegisteredLists /> : null}
       <SSS />
       {/*<BestUsers />*/}
       {/*<ContactSection />*/}
       <Footer />
     </div>
   );
-}
+};
 
-function HotLists({lists}) {
+function HotLists({ lists }) {
   return (
     <div className="w-full flex items-center justify-center">
       <div className="max-w-5xl w-full mx-auto py-8 px-4 flex items-start justify-center flex-col gap-8">
@@ -134,27 +160,24 @@ function HotLists({lists}) {
           desc="Kullanıcılar tarafından en beğenilmiş beğenebileceğini düşündüğümüz listeler."
         />
         <div className="flex gap-4 items-center w-full lg:flex-row flex-col">
-          {
-            lists.map((list, index) => (
-              <NewListCard
-                image={list.image}
-                title={list.title}
-                description={list.description}
-                url={list.url}
-                user={list.user}
-                date={list.created_date}
-                key={index}
-              />
-            ))
-          }
+          {lists.map((list, index) => (
+            <ListCard
+              image={list.image}
+              title={list.title}
+              description={list.description}
+              url={list.url}
+              user={list.user}
+              date={list.created_date}
+              key={index}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function RecentlyPublishedStories({stories}) {
-
+function RecentlyPublishedStories({ stories }) {
   function cleanHTML(input) {
     let cleanedText = input.replace(/<\/?p>/gi, "");
     cleanedText = cleanedText.replace(/&[^;]+;/g, "");
@@ -169,21 +192,71 @@ function RecentlyPublishedStories({stories}) {
           desc="Tüm dil seviyelerine ayrı ayrı yazılmış hikayelerden en son yayınlananlar."
         />
         <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
-          {
-            stories.map((story, index) => (
-              <NewListCard
-                key={index}
-                image={
-                  story.better_featured_image.media_details.sizes.medium_large
-                    .source_url
-                }
-                title={story.title.rendered}
-                description={cleanHTML(story.excerpt.rendered)}
-                url={story.link}
-                new_tab={true}
-                bgColor="bg-neutral-100"
+          {stories.map((story, index) => (
+            <ListCard
+              key={index}
+              image={
+                story.better_featured_image.media_details.sizes.medium_large
+                  .source_url
+              }
+              title={story.title.rendered}
+              description={cleanHTML(story.excerpt.rendered)}
+              url={story.link}
+              new_tab={true}
+              bgColor="bg-neutral-100"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RecentlyRegisteredLists() {
+  const [lists, setLists] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    var data = {
+      count: 3,
+    };
+
+    apiClient
+      .post("get-registered-lists", data)
+      .then((response) => {
+        setLists(response.data.data);
+      })
+      .catch((error) =>
+        toast.error(
+          error.response?.data?.message || "Beklenmeyen bir hata oluştu."
+        )
+      )
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div className="w-full flex items-center justify-center">
+      <div className="max-w-5xl w-full mx-auto py-8 px-4 flex items-start justify-center flex-col gap-8">
+        <SectionTitle
+          title="Son Kayıt Olunanan  Listeler"
+          desc="Son kayıt olduğun listelerden sadece 3 tanesini burada listelenir diğerlerini görmek için kontrol panelinde n ilgili alana gidin."
+        />
+        <div className="flex gap-4 items-center w-full lg:flex-row flex-col">
+          {lists.length > 0 || loading == false ? (
+            lists.map((list, index) => (
+              <ListCard
+                image={list.image}
+                title={list.title}
+                description={list.description}
+                url={list.url}
+                user={list.user}
+                date={list.created_date}
+                progress={list.progress}
               />
-            ))}
+            ))
+          ) : (
+            <p>{lists.length > 0 ? "Yükleniyor..." : "No lists available"}</p>
+          )}
         </div>
       </div>
     </div>
@@ -290,71 +363,6 @@ function ContactSection() {
         />
         <Contact />
       </div>
-    </div>
-  );
-}
-
-function NewListCard({
-  image,
-  title,
-  description,
-  url,
-  new_tab = false,
-  user = null,
-  date = null,
-  bgColor = "bg-neutral-200/50",
-}) {
-  return (
-    <div
-      className={
-        "max-w-80 h-96 flex rounded-lg overflow-hidden items-center justify-between flex-col " +
-        bgColor
-      }
-    >
-      <Image
-        src={image}
-        width={320}
-        height={180}
-        className="w-80 h-[180px] cover object-cover"
-        alt={title + " listenin görseli"}
-      />
-      <div className="flex w-full px-4 py-3 gap-2 flex-col">
-        {user != null ? (
-          <div className="flex gap-4 text-neutral-700">
-            <Creator
-              username={user.username}
-              profile={user.Profile_photo}
-              verification={user.User_verification_status}
-            />
-            {date}
-          </div>
-        ) : null}
-
-        <h3 className="font-bold text-neutral-800 line-clamp-1" title={title}>
-          {title}
-        </h3>
-        <p className="line-clamp-3	text-neutral-700" title={description}>
-          {description}
-        </p>
-      </div>
-      {new_tab == false ? (
-        <Link
-          href={"/list/" + url}
-          className="flex gap-2 px-4 py-2 w-full justify-end text-indigo-600 hocus:gap-4 transition-all"
-        >
-          İncele
-          <ArrowRight />
-        </Link>
-      ) : (
-        <a
-          href={url}
-          className="flex gap-2 px-4 py-2 w-full justify-end text-indigo-600 hocus:gap-4 transition-all"
-          target="_blank"
-        >
-          Oku
-          <ArrowRight />
-        </a>
-      )}
     </div>
   );
 }

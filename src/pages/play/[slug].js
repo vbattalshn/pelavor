@@ -169,7 +169,7 @@ export default function Play() {
           <div className="w-full h-4 rounded-full bg-neutral-200 overflow-hidden">
             <span
               className={
-                "w-[100%] -full flex items-center text-sm justify-center text-neutral-200 font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all"
+                "w-[100%] h-full flex items-center text-sm justify-center text-neutral-200 font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all"
               }
               style={{ width: data.progress_percent + "%" }}
             >

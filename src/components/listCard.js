@@ -13,11 +13,12 @@ export default function ListCard({
   edit = false,
   new_tab = false,
   bgColor = "bg-neutral-200/50",
+  progress = null
 }) {
   return (
     <div
       className={
-        "max-w-80 h-96 flex rounded-lg overflow-hidden items-center justify-between flex-col " +
+        "max-w-80 h-[396px] flex rounded-lg overflow-hidden items-center justify-between flex-col " +
         bgColor
       }
     >
@@ -40,6 +41,20 @@ export default function ListCard({
           </div>
         ) : null}
 
+        {
+          progress != null ? (
+            <div className="w-full h-2 bg-neutral-300 rounded-full overflow-hidden">
+              <span
+              className={
+                "w-[100%] h-full flex items-center text-sm justify-center text-neutral-200 font-semibold bg-gradient-to-r bg-indigo-500 transition-all"
+              }
+              style={{ width: progress + "%" }}
+            />
+
+            </div>
+          ) :null
+        }
+
         <h3 className="font-bold text-neutral-800 line-clamp-1" title={title}>{title}</h3>
         <p className="line-clamp-3	text-neutral-700" title={description}>{description}</p>
       </div>
@@ -49,7 +64,8 @@ export default function ListCard({
           href={"/list/" + url}
           className="flex gap-2 px-4 py-2 w-full justify-end text-indigo-600 hocus:gap-4 transition-all"
         >
-          İncele
+          
+          {progress == null ? "İncele" : progress == 0 ? "Başla" : progress == 100 ? "Tamamladın" : "Devam Et"}
           <ArrowRight />
         </Link>
       ) : (
