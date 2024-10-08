@@ -8,6 +8,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { useEffect } from "react";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   apiClient.interceptors.response.use(
