@@ -23,7 +23,7 @@ export default function Footer() {
 
                 </div>
                 <div className="flex-1 flex flex-col gap-2">
-                    <span className="text-neutral-800 font-bold">Site Haritaleri</span>
+                    <span className="text-neutral-800 font-bold">Site Haritaları</span>
                     <div className="flex flex-col gap-1 text-neutral-700">
                         <a href="https://api.pelavor.com/sitemap.xml" target="_blank">pelavor.com</a>
                         <a href="https://blog.pelavor.com/sitemap.xml" target="_blank">blog.pelavor.com</a>
