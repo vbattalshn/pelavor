@@ -9,6 +9,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { useEffect } from "react";
 import Head from "next/head";
+import CookiePrivacyConsent from "@/components/cookiePrivacyConsent";
 
 function MyApp({ Component, pageProps }) {
   apiClient.interceptors.response.use(
@@ -56,6 +57,7 @@ function MyApp({ Component, pageProps }) {
       <Toaster position="left-top" />
       <SpeedInsights />
       <Analytics />
+      <CookiePrivacyConsent />
     </>
   );
 }
