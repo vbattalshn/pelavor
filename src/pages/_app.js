@@ -7,9 +7,11 @@ import { Analytics } from "@vercel/analytics/react";
 import NextTopLoader from 'nextjs-toploader';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { useEffect } from "react/cjs/react.production.min";
+import { useEffect } from "react";
+
 function MyApp({ Component, pageProps }) {
   apiClient.interceptors.response.use(
+
     (response) => {
       if (response.data?.data?.redirect) {
         toast.success(response.data.message);
