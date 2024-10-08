@@ -61,10 +61,10 @@ export default function ForgotPassword() {
           <CorrectMessage message={correct} />
           <div className="flex flex-col gap-2">
             <label className="flex flex-col gap-1 font-semibold">
-              Username Or Email
+              Kullanıcı Adı veya Email
               <Input type="text" id="username" value={username} setValue={setUsername} />
             </label>
-            <Button onClick={FindAccount} loading={loading} label="Find my account"/>
+            <Button onClick={FindAccount} loading={loading} label="Hesabını bul"/>
           </div>
         </div>
       </div>
@@ -75,9 +75,8 @@ export default function ForgotPassword() {
 function Title() {
   return (
     <h1 className="text-neutral-900 font-semibold text-xl w-full flex items-center content-center gap-1">
-      <span>Find your</span>
       <Logo className="w-auto h-5" color="currentColor" />
-      <span>account</span>
+      <span>hesabını bul</span>
     </h1>
   );
 }

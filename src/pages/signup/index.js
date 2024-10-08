@@ -44,9 +44,9 @@ export default function SignUp() {
           <hr className="w-72 bg-neutral-200 h-[2px] rounded" />
           <SignupWithEmail />
           <span className="text-sm text-neutral-500">
-            Do have an account? 
+            Hesabın var mı? 
             <Link href="/login" className="underline">
-              Sign in
+              Giriş yap
             </Link>
           </span>
         </div>
@@ -58,8 +58,8 @@ export default function SignUp() {
 function Title() {
   return (
     <h1 className="text-neutral-900 font-semibold text-xl w-full flex items-center content-center gap-1">
-      <span>Sign up to</span>
       <Logo className="w-auto h-5" color="currentColor" />
-    </h1>
+      <span>'a kayıt ol</span>
+      </h1>
   );
 }

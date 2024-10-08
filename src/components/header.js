@@ -24,11 +24,11 @@ export default function Header() {
       href: "/hot-lists",
       label: "Popüler Listeler",
     },
-    {
+    /*{
       id: 3,
       href: "/podcast",
       label: "Podcast",
-    },
+    },*/
   ];
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Header() {
       setIsLoggined(true);
       setUserData(JSON.parse(Cookies.get("user_data")));
     }
-  }, []);
+  }, [Cookies]);
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [headerClass, setHeaderClass] = useState('');
@@ -174,7 +174,7 @@ function SignInBtn({ className }) {
       }
     >
       <AvatarIcon />
-      <span>Sign In</span>
+      <span>Giriş Yap</span>
     </Link>
   );
 }
@@ -184,25 +184,25 @@ function UserMenu({ className, userData }) {
     {
       id: 0,
       href: "/dashboard",
-      label: "Dashboard",
+      label: "Kontrol Paneli",
       class: "",
     },
     {
       id: 1,
       href: "/dashboard/settings",
-      label: "Settings",
+      label: "Ayarlar",
       class: "",
     },
     {
       id: 2,
       href: "/user/" + userData.username,
-      label: "Your Profile",
+      label: "Profilin",
       class: "",
     },
     {
       id: 3,
       href: "/logout",
-      label: "Logout",
+      label: "Çıkış Yap",
       class: "hocus:!bg-red-600 hocus:!text-neutral-200",
     },
   ];

@@ -169,7 +169,7 @@ export default function Play() {
           <div className="w-full h-4 rounded-full bg-neutral-200 overflow-hidden">
             <span
               className={
-                "w-[100%] h-full flex items-center text-sm justify-center text-neutral-200 font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all"
+                "w-[100%] h-full flex items-center text-sm justify-center text-neutral-200 font-bold bg-gradient-to-r bg-indigo-600 shadow-[0px_0px_8px_0px_rgb(0,0,0,0.5)] transition-all"
               }
               style={{ width: data.progress_percent + "%" }}
             >
@@ -179,7 +179,7 @@ export default function Play() {
           <h1 className="font-semibold text-neutral-700">{data.title}</h1>
           {answerIsCorrect == null ? (
             <>
-              <div className="bg-neutral-200 px-16 py-12 font-black font-mono rounded-lg text-5xl text-neutral-800">
+              <div className="min-w-xs w-full bg-neutral-200/50 px-16 py-12 font-black font-mono rounded-xl text-5xl text-neutral-800 text-center">
                 {data.word}
               </div>
               <Speak text={data.word} />
@@ -296,7 +296,7 @@ function LoadingPlaceholder() {
     <div className="animate-pulse max-w-5xl mx-auto flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 ">
       <div className="w-full h-4 rounded-full bg-neutral-300 overflow-hidden" />
       <h1 className="font-semibold w-4/5 h-6  bg-neutral-300 rounded-full" />
-      <div className="bg-neutral-300  h-36 w-96 font-black font-mono rounded-lg text-5xl text-neutral-800" />
+      <div className="bg-neutral-300 h-36 w-full font-black font-mono rounded-lg text-5xl text-neutral-800" />
       <div className="fixed max-w-5xl w-11/12 sm:h-20 h-40 bottom-4 bg-neutral-300 rounded-xl z-50" />
     </div>
   );
@@ -346,7 +346,7 @@ function Speak({ text }) {
     <div className="flex flex-col gap-2 items-center justify-center">
       <button
         onClick={() => speak(text)}
-        className="p-2 flex gap-2 bg-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden"
+        className="p-2 flex gap-2 bg-neutral-200 border border-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden hocus:ring hocus:ring-indigo-600/50 hocus:border-indigo-600 hocus:bg-neutral-300/50"
       >
         <Volume className="w-7 h-7" />
         <span>Seslendir</span>
@@ -355,9 +355,9 @@ function Speak({ text }) {
         onClick={ToggleAutoSpeak}
         for="autoSpeak"
         className={
-          "p-2 flex gap-2 bg-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden " +
+          "p-2 flex gap-2 bg-neutral-200 border border-neutral-200 text-neutral-800 rounded-full items-center overflow-hidden hocus:ring hocus:ring-indigo-600/50 hocus:border-indigo-600 hocus:bg-neutral-300/50" +
           (autoSpeak
-            ? "!bg-indigo-600/75 border border-indigo-600 !text-neutral-200"
+            ? " !bg-indigo-600/75 border border-indigo-600 !text-neutral-200"
             : "")
         }
       >

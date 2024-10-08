@@ -51,7 +51,7 @@ export default function SigninWithEmail() {
     <div className="flex flex-col gap-2">
       <ErrorMessage error={error} />
       <label className="flex flex-col gap-1 font-semibold">
-        Username Or Email
+        Kullanıcı Adı veya Email
         <Input
           type="text"
           id="username"
@@ -61,12 +61,12 @@ export default function SigninWithEmail() {
       </label>
       <label className="flex flex-col gap-1 font-semibold">
         <span className="flex justify-between items-center">
-          Password
+          Şifre
           <Link
             href="/forgot-password"
             className="text-sm font-normal underline text-neutral-500"
           >
-            Forgot?
+            Unuttun mu?
           </Link>
         </span>
         <Input
@@ -76,7 +76,7 @@ export default function SigninWithEmail() {
           setValue={setPassword}
         />
       </label>
-      <Button onClick={login} loading={loading} label="Sign In" />
+      <Button onClick={login} loading={loading} label="Giriş Yap" />
     </div>
   );
 }

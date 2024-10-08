@@ -53,8 +53,8 @@ export default function SigninWithEmail() {
         <span>Davet Kodu</span>
         <Input type="number" id="inavtion" value={invitationCode} setValue={setInvitationCode}/>
       </label>
-      <Button onClick={SignUp} loading={loading} label="Sign Up" />
-      <span className="text-sm text-neutral-500 max-w-96 text-center">
+      <Button onClick={SignUp} loading={loading} label="Kayıt Ol" />
+      {/* <span className="text-sm text-neutral-500 max-w-96 text-center">
         By creating an account you agree with our{" "}
         <Link href="/" className="underline">
           Terms of Service
@@ -64,6 +64,9 @@ export default function SigninWithEmail() {
           Privacy Policy
         </Link>
         .
+      </span> */}
+      <span className="text-sm text-neutral-500 max-w-96 text-center">
+        Hesap oluşturarak Hizmet Şartlarımızı ve Gizlilik Politikamızı kabul etmiş olursunuz.
       </span>
     </div>
   );

@@ -7,6 +7,7 @@ import PageHeader from "@/components/page/header";
 import PageFilter from "@/components/page/filter";
 import Footer from "@/components/footer";
 import ListCardLoading from "@/components/listCardLoading";
+import Head from "next/head";
 
 export default function HotLists() {
   const [lists, setLists] = useState([]);
@@ -40,6 +41,37 @@ export default function HotLists() {
 
   return (
     <main>
+      <Head>
+        <title>Popüler Listeler | Pelavor</title>
+        <meta name="title" content="Popüler Listeler | Pelavor" />
+        <meta
+          name="description"
+          content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://pelavor.com/hot-lists" />
+        <meta property="og:title" content="Pelavor" />
+        <meta
+          property="og:description"
+          content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!"
+        />
+        <meta
+          property="og:image"
+          content="https://files.pelavor.com/pelavor.png"
+        />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://pelavor.com/hot-lists" />
+        <meta property="twitter:title" content="Pelavor" />
+        <meta
+          property="twitter:description"
+          content="Pelavor ile kelime dağarcığınızı hızla genişletin! Kullanıcılar tarafından oluşturulan zengin kelime listelerine erişin, İngilizce kelimeleri eğlenceli ve etkili bir şekilde öğrenin. Dizi ve film senaryolarından, kitap içeriklerinden ve çalışma materyallerinden derlenen kelimeleri keşfedin. Şimdi kaydolun ve kelime bilginizi geliştirin!"
+        />
+        <meta
+          property="twitter:image"
+          content="https://files.pelavor.com/pelavor.png"
+        />      </Head>
       <Header />
       <div>
         <PageHeader icon="🔥" title="Popüler Listeler" />

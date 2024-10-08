@@ -56,9 +56,9 @@ export default function Login() {
           <hr className="w-72 bg-neutral-200 h-[2px] rounded" />
           <SigninWithEmail />
           <div className="text-sm text-neutral-500">
-            Don't have an account? 
+            Hesabın yok mu? 
             <Link href="/signup" className="underline">
-              Sign up
+              Kayıt Ol
             </Link>
           </div>
         </div>
@@ -70,8 +70,8 @@ export default function Login() {
 function Title() {
   return (
     <div className="text-neutral-900 font-semibold text-xl w-full flex items-center content-center gap-1">
-      <p>Sign in to</p>
       <Logo className="w-auto h-5" color="currentColor" />
-    </div>
+      <p>'a giriş yap</p>
+      </div>
   );
 }

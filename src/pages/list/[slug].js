@@ -230,10 +230,10 @@ const ListHead = ({
             ) : (
               <Link
                 href={"/play/" + url}
-                className="px-4 py-2 rounded-full font-medium border border-amber-600 text-neutral-600 relative overflow-hidden hocus:ring hocus:ring-amber-600/50 transition-all ">
-                  <span className="w-full h-full absolute top-0 left-0 block bg-amber-600 z-0" style={{ width: progress + "%" }}></span>
+                className="px-4 py-2 rounded-full font-medium border border-amber-400 text-neutral-600 relative overflow-hidden hocus:ring hocus:ring-amber-400/50 transition-all ">
+                  <span className="w-full h-full absolute top-0 left-0 block bg-amber-400 z-0" style={{ width: progress + "%" }}></span>
                   <span className="block z-10 relative">
-                    %{progress} tamamlandı
+                    %{progress} tamamlandı devam et
                   </span>
               </Link>
             )
