@@ -24,6 +24,16 @@ export default function Header() {
       href: "/hot-lists",
       label: "Popüler Listeler",
     },
+    {
+      id: 3,
+      href: "/search-list",
+      label: "Liste Ara",
+    },
+    {
+      id: 4,
+      href: "/search-word",
+      label: "Kelime Ara",
+    },
     /*{
       id: 3,
       href: "/podcast",

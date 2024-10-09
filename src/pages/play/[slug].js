@@ -166,6 +166,7 @@ export default function Play() {
       <Header />
       {loading == false && data.progress_percent != 100 ? (
         <div className="max-w-5xl min-w-[clac(100lvh - 60px)] !min-w-[clac(--terminal-force-height) * 1px] mx-auto  flex p-4 flex-col gap-6 items-center sm:pb-32 pb-48 relative">
+          <h1 className="font-semibold text-neutral-700">{data.title}</h1>
           <div className="w-full h-4 rounded-full bg-neutral-200 overflow-hidden">
             <span
               className={
@@ -176,7 +177,6 @@ export default function Play() {
               {data.progress_percent}%
             </span>
           </div>
-          <h1 className="font-semibold text-neutral-700">{data.title}</h1>
           {answerIsCorrect == null ? (
             <>
               <div className="min-w-xs w-full bg-neutral-200/50 px-16 py-12 font-black font-mono rounded-xl text-5xl text-neutral-800 text-center">
@@ -228,7 +228,7 @@ export default function Play() {
       >
         <Sheet.Container className="!bg-neutral-100 !rounded-tr-2xl !rounded-tl-2xl overflow-hidden">
           <Sheet.Header className="" />
-          <Sheet.Content className="max-w-5xl mx-auto w-full p-2 pb-8 flex gap-2 flex-col">
+          <Sheet.Content className="max-w-5xl mx-auto w-full p-4 pb-8 flex gap-2 flex-col">
             <h1 className="text-2xl pb-1 text-neutral-700 font-semibold">
               {data.word} anlamları
             </h1>
@@ -245,7 +245,7 @@ export default function Play() {
             </ul>
 
             <Button
-              autoFocus
+              autoFocus={true}
               onClick={() => closeSheet()}
               label="Geç"
               className="rounded-lg px-8 w-fit"

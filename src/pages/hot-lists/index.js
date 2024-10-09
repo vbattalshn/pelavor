@@ -6,8 +6,8 @@ import ListCard from "@/components/listCard";
 import PageHeader from "@/components/page/header";
 import PageFilter from "@/components/page/filter";
 import Footer from "@/components/footer";
-import ListCardLoading from "@/components/listCardLoading";
 import Head from "next/head";
+import ListsLoading from "@/components/listsLoading";
 
 export default function HotLists() {
   const [lists, setLists] = useState([]);
@@ -89,7 +89,7 @@ export default function HotLists() {
               />
             ))
           ) : (
-            <div>{loading == true ? <HotListsLoading /> : "No lists available"}</div>
+            <div>{loading == true ? <ListsLoading /> : "No lists available"}</div>
           )}
         </div>
       </div>
@@ -98,12 +98,3 @@ export default function HotLists() {
   );
 }
 
-function HotListsLoading(params) {
-  return (
-    <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
-      <ListCardLoading />
-      <ListCardLoading />
-      <ListCardLoading />
-    </div>
-  );
-}

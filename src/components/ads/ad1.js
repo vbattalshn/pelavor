@@ -16,8 +16,9 @@ export default function ad1() {
 
   return (
     <>
-      {!premium && (
+      {premium == 0 && (
         <>
+          <span>Reklam</span>
           <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113432847008327"

@@ -6,7 +6,7 @@ const getLangFromCookie = () => {
 };
 
 const apiClient = axios.create({
-  baseURL: "https://api.pelavor.com/",
+  baseURL: "http://word-learning.test/",
 });
 
 apiClient.interceptors.request.use((config) => {
