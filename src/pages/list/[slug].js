@@ -9,18 +9,18 @@ import WordContent from "@/components/wordContent";
 import Calender from "@/components/calendar";
 import Avatars from "@/assets/icons/avatars";
 import AvatarTick from "@/assets/icons/avatarTick";
-import Arrow from "@/assets/icons/arrow";
 
 import apiClient from "@/lib/api";
 
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Head from "next/head";
 import cookie from "cookie";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
 
     if (cookies.session) {
       response = await axios({
-        baseURL: "http://api.pelavor.com//get-list",
+        baseURL: "http://word-learning.test/get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
@@ -45,7 +45,7 @@ export async function getServerSideProps(context) {
       });
     } else {
       response = await axios({
-        baseURL: "http://api.pelavor.com/get-list",
+        baseURL: "http://word-learning.test/get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
@@ -160,7 +160,7 @@ const ListHead = ({
   description,
   url,
   joined,
-  progress
+  progress,
 }) => {
   const [isJoined, setIsJoined] = useState(joined);
 
@@ -216,36 +216,40 @@ const ListHead = ({
           </div>
           <p>{description}</p>
           <div className="flex gap-2">
-          {isJoined ? (
-            progress === 0 ? (
-              <Link
-                href={"/play/" + url}
-                className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 active:scale-95 hocus:ring hocus:ring-indigo-600/50 hocus:bg-indigo-600 hocus:text-neutral-200 transition-all"
-              >
-                Başla
-              </Link>
-            ) : progress === 100 ? (
-              <span className="px-4 py-2 rounded-full font-medium text-neutral-200 border border-emerald-600 bg-emerald-600">
-                Tamamlandı
-              </span>
-            ) : (
-              <Link
-                href={"/play/" + url}
-                className="px-4 py-2 rounded-full font-medium border border-amber-400 text-neutral-600 relative overflow-hidden hocus:ring hocus:ring-amber-400/50 transition-all ">
-                  <span className="w-full h-full absolute top-0 left-0 block bg-amber-400 z-0" style={{ width: progress + "%" }}></span>
+            {isJoined ? (
+              progress === 0 ? (
+                <Link
+                  href={"/play/" + url}
+                  className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 active:scale-95 hocus:ring hocus:ring-indigo-600/50 hocus:bg-indigo-600 hocus:text-neutral-200 transition-all"
+                >
+                  Başla
+                </Link>
+              ) : progress === 100 ? (
+                <span className="px-4 py-2 rounded-full font-medium text-neutral-200 border border-emerald-600 bg-emerald-600">
+                  Tamamlandı
+                </span>
+              ) : (
+                <Link
+                  href={"/play/" + url}
+                  className="px-4 py-2 rounded-full font-medium border border-amber-400 text-neutral-600 relative overflow-hidden hocus:ring hocus:ring-amber-400/50 transition-all "
+                >
+                  <span
+                    className="w-full h-full absolute top-0 left-0 block bg-amber-400 z-0"
+                    style={{ width: progress + "%" }}
+                  ></span>
                   <span className="block z-10 relative">
                     %{progress} tamamlandı devam et
                   </span>
-              </Link>
-            )
-          ) : (
-            <button
-              onClick={JoinTheList}
-              className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 disabled:opacity-50"
-            >
-              Katıl
-            </button>
-          )}
+                </Link>
+              )
+            ) : (
+              <button
+                onClick={JoinTheList}
+                className="px-4 py-2 rounded-full font-medium text-indigo-600 border border-indigo-600 disabled:opacity-50"
+              >
+                Katıl
+              </button>
+            )}
 
             {/* <button className="p-2 rounded-full font-medium text-red-600 border !border-red-600 hocus:ring-red-600/50">
               <Bookmark />
@@ -258,6 +262,14 @@ const ListHead = ({
 };
 
 function ListContent({ words }) {
+  const [isLoggined, setIsLoggined] = useState(false);
+
+  useEffect(() => {
+    if (Cookies.get("user_data")) {
+      setIsLoggined(true);
+    }
+  }, [Cookies]);
+
   return (
     <div className="flex flex-col bg-neutral-200/50 p-1 gap-1 rounded-lg border border-neutral-200 mb-2 animate-loaded">
       {JSON.parse(words).length > 0 ? (
@@ -267,10 +279,12 @@ function ListContent({ words }) {
       ) : (
         <p>İçerik Yok</p>
       )}
+      {!isLoggined ? (
+        <Link href="/login" className="p-2 text-center bg-amber-400 rounded-md text-neutral-800 font-semibold">Tüm içeriği görebilmek için giriş yapmalısınız</Link>
+      ) : null}
     </div>
   );
 }
-
 
 function Comments({ url }) {
   const [refreshTurn, setRefreshTurn] = useState(0);
@@ -281,6 +295,5 @@ function Comments({ url }) {
     </div>
   );
 }
-
 
 export default List;

@@ -26,6 +26,10 @@ export default function SearchList(params) {
     }
   }, [router, useRouter]);
 
+  useEffect(() => {
+    getSearchResult();
+  }, [order])
+
   const formSubmitted = (event) => {
     event.preventDefault();
     getSearchResult();
