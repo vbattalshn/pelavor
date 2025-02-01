@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
 
     if (cookies.session) {
       response = await axios({
-        baseURL: "http://word-learning.test//get-list",
+        baseURL: "https://api.pelavor.com//get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
@@ -45,7 +45,7 @@ export async function getServerSideProps(context) {
       });
     } else {
       response = await axios({
-        baseURL: "http://word-learning.test/get-list",
+        baseURL: "https://api.pelavor.com/get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
