@@ -2,7 +2,7 @@ import { useState } from "react";
 import Arrow from "@/assets/icons/arrow";
 import apiClient from "@/lib/api";
 
-export default function WordContent({ index, word }) {
+export default function WordContent({ index, id, word }) {
     const [isOpenned, setIsOpenned] = useState(false);
     const [meanings, setMeanings] = useState(false);
   
@@ -21,6 +21,7 @@ export default function WordContent({ index, word }) {
   
     function getWordData() {
       const data = {
+        id: id,
         word: word,
       };
   
@@ -57,9 +58,9 @@ export default function WordContent({ index, word }) {
         {isOpenned ? (
           <div className="flex flex-col px-4 pb-2 gap-1 text-neutral-700 animate-loaded">
             {meanings.length > 0 ? (
-              meanings.map((meaning, index) => (
+              meanings.map((word, index) => (
                 <span key={index} className="">
-                  {index + 1}. {meaning}
+                  {index + 1}. {word.word}
                 </span>
               ))
             ) : (

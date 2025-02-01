@@ -13,6 +13,7 @@ import axios from "axios";
 import apiClient from "@/lib/api";
 import ListCard from "@/components/listCard";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 export async function getServerSideProps() {
   try {

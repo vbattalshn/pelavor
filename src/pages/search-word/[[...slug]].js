@@ -55,7 +55,7 @@ export default function SearchList() {
       <div className="max-w-5xl w-full mx-auto flex flex-col bg-neutral-200/50 p-1 gap-1 rounded-lg border border-neutral-200 mb-2 animate-loaded">
         {search.length > 0 && words.length > 0 && !loading ? (
           words.map((word, index) => (
-            <WordContent key={index} word={word.word} index={index} />
+            <WordContent key={index} word={word.word} id={word.id} index={index} />
           ))
         ) : 
           loading == true ? (<p className="p-2 text-center">Yükleniyor..</p>) : search.length > 0 ? (<p className="p-2 text-center">Kelime bulunamadı</p>) : <p className="p-2 text-center">Hemen bir kelime ara. 🔎</p>

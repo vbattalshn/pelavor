@@ -239,7 +239,7 @@ export default function Play() {
                   key={index}
                   className="text-neutral-700 p-2 border-b border-neutral-300 last:border-b-0 font-medium"
                 >
-                  {index + 1 + ". " + answer}
+                  {index + 1 + ". " + answer.word}
                 </li>
               ))}
             </ul>

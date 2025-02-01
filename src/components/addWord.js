@@ -95,7 +95,7 @@ function Results({ results, addWordtoList }) {
             className="flex justify-between items-center border-b p-1 border-neutral-300 last:border-none text-neutral-600 font-medium"
           >
             <span>{result.word}</span>
-            <button className="p-1 hocus:bg-neutral-300 rounded transition-all" onClick={() => addWordtoList(result.word)} >
+            <button className="p-1 hocus:bg-neutral-300 rounded transition-all" onClick={() => addWordtoList(result.word, result.id)} >
               <Add className="w-6 h-6" />
             </button>
           </div>
