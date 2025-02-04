@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
 
     if (cookies.session) {
       response = await axios({
-        baseURL: "https://api.pelavor.com//get-list",
+        baseURL: "https://api.pelavor.com/get-list",
         method: "post",
         headers: {
           Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
@@ -250,6 +250,12 @@ const ListHead = ({
                 Katıl
               </button>
             )}
+            {/* {isJoined ? (
+              <button className="px-4 py-2 flex gap-1 items-center justify-center rounded-full font-medium text-neutral-200 border-transparent bg-indigo-600 disabled:opacity-50">
+                <Download />
+                PDF indir
+              </button>
+            ) : null} */}
 
             {/* <button className="p-2 rounded-full font-medium text-red-600 border !border-red-600 hocus:ring-red-600/50">
               <Bookmark />
@@ -280,7 +286,12 @@ function ListContent({ words }) {
         <p>İçerik Yok</p>
       )}
       {!isLoggined ? (
-        <Link href="/login" className="p-2 text-center bg-amber-400 rounded-md text-neutral-800 font-semibold">Tüm içeriği görebilmek için giriş yapmalısınız</Link>
+        <Link
+          href="/login"
+          className="p-2 text-center bg-amber-400 rounded-md text-neutral-800 font-semibold"
+        >
+          Tüm içeriği görebilmek için giriş yapmalısınız
+        </Link>
       ) : null}
     </div>
   );

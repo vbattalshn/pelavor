@@ -36,9 +36,9 @@ export default function SignUp() {
       />
       <div className="flex-1 flex items-center justify-center flex-col gap-4 min-h-screen py-4">
         <div className="flex justify-center items-center flex-col gap-3">
-          <div className="bg-yellow-400/50 border border-yellow-400 rounded-lg max-w-96 p-2 text-neutral-700 font-medium text-justify">
+          {/* <div className="bg-yellow-400/50 border border-yellow-400 rounded-lg max-w-96 p-2 text-neutral-700 font-medium text-justify">
           Pelavor şu anda beta sürümündedir. Bu nedenle, kayıt işlemlerini sınırlı tutuyoruz. Kayıt olmak için bir davet koduna ihtiyacınız var. Davet kodunuz varsa, kaydınızı tamamlayabilirsiniz.
-          </div>
+          </div> */}
           <Title />
           <SigninWithGoogle type="Sign up" />
           <hr className="w-72 bg-neutral-200 h-[2px] rounded" />

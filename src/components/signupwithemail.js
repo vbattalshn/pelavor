@@ -49,10 +49,10 @@ export default function SigninWithEmail() {
         <span>Şifre</span>
         <Input type="password" id="password" value={password} setValue={setPassword}/>
       </label>
-      <label className="flex flex-col gap-1 font-semibold">
+      {/* <label className="flex flex-col gap-1 font-semibold">
         <span>Davet Kodu</span>
         <Input type="number" id="inavtion" value={invitationCode} setValue={setInvitationCode}/>
-      </label>
+      </label> */}
       <Button onClick={SignUp} loading={loading} label="Kayıt Ol" />
       {/* <span className="text-sm text-neutral-500 max-w-96 text-center">
         By creating an account you agree with our{" "}

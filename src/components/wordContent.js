@@ -2,7 +2,7 @@ import { useState } from "react";
 import Arrow from "@/assets/icons/arrow";
 import apiClient from "@/lib/api";
 
-export default function WordContent({ index, id, word }) {
+export default function WordContent({ index, id, word, lang="en" }) {
     const [isOpenned, setIsOpenned] = useState(false);
     const [meanings, setMeanings] = useState(false);
   
@@ -23,6 +23,7 @@ export default function WordContent({ index, id, word }) {
       const data = {
         id: id,
         word: word,
+        lang: lang
       };
   
       apiClient
@@ -64,7 +65,7 @@ export default function WordContent({ index, id, word }) {
                 </span>
               ))
             ) : (
-              <p>İçerik Yok</p>
+              <p>{meanings}</p>
             )}
           </div>
         ) : null}

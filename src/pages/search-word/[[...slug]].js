@@ -12,6 +12,7 @@ export default function SearchList() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [words, setWords] = useState([]);
+  const [lang, setLang] = useState("en");
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -34,7 +35,7 @@ export default function SearchList() {
   const getSearchResult = () => {
     setLoading(true);
 
-    const data = { "word":search };
+    const data = { "word":search, "lang":lang };
 
     apiClient
       .post("search_word", data)
@@ -42,7 +43,6 @@ export default function SearchList() {
         setWords(response.data?.data?.results || []);
       })
       .catch((e) => {
-        toast.error(e.response?.data?.message || "Beklenmeyen bir hata oluştu");
         console.error(e);
         setWords([]);
       })
@@ -51,11 +51,11 @@ export default function SearchList() {
   return (
     <>
       <Header />
-      <SearchSection search={search} setSearch={setSearch} onSubmit={formSubmitted} />
+      <SearchSection search={search} setSearch={setSearch} onSubmit={formSubmitted} lang={lang} setLang={setLang} />
       <div className="max-w-5xl w-full mx-auto flex flex-col bg-neutral-200/50 p-1 gap-1 rounded-lg border border-neutral-200 mb-2 animate-loaded">
         {search.length > 0 && words.length > 0 && !loading ? (
           words.map((word, index) => (
-            <WordContent key={index} word={word.word} id={word.id} index={index} />
+            <WordContent key={index} word={word.word} id={word.id} index={index} lang={lang} />
           ))
         ) : 
           loading == true ? (<p className="p-2 text-center">Yükleniyor..</p>) : search.length > 0 ? (<p className="p-2 text-center">Kelime bulunamadı</p>) : <p className="p-2 text-center">Hemen bir kelime ara. 🔎</p>
@@ -66,7 +66,7 @@ export default function SearchList() {
   );
 }
 
-const SearchSection = ({ search, setSearch, onSubmit }) => {
+const SearchSection = ({ search, setSearch, onSubmit, lang, setLang }) => {
   return (
     <div className="max-w-5xl mx-auto py-12 p-4 mt-4 mb-4 flex flex-col gap-4 bg-neutral-200/50 rounded-2xl items-center justify-center bg-listBgImage bg-center bg-auto">
       <h2 className="text-4xl font-extrabold text-neutral-900">Kelime Ara</h2>
@@ -80,6 +80,11 @@ const SearchSection = ({ search, setSearch, onSubmit }) => {
           value={search}
           setValue={setSearch}
         />
+        <button className="!bg-neutral-100/50 backdrop-blur-sm rounded-lg border-none p-4" onClick={() => setLang(lang === "en" ? "tr" : "en")} >
+          {
+            lang == "en" ? "İngilizceden Türkçeye" : "Türkçeden İngilizceye"
+          }
+        </button>
         <Button type="submit" label="Liste Ara" className="rounded-lg" />
       </form>
     </div>

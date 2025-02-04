@@ -27,6 +27,11 @@ html {
   background-color: #a3a3a3;
 }
 
+::selection{
+  background-color: #1a293a;
+  color: #e5e5e5
+}
+
 @layer base {
   body {
     @apply bg-neutral-100;

@@ -26,6 +26,8 @@ export default function Sidebar() {
   const [showMenu, setShowMenu] = useState(false);
   const [littleMenu, setLittleMenu] = useState(false);
   const [parent] = useAutoAnimate()
+  const [isAdmin, setAdmin] = useState(false);
+  const [userStatusData, setUserStatusData] = useState([]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -39,7 +41,11 @@ export default function Sidebar() {
   useEffect(() => {
     setLittleMenu(Cookies.get("sidebarLittleMenu") == "true" ? true : false)
   }, [])
-
+  
+  Cookies.get("status")
+  useEffect(() => {
+    setAdmin(Cookies.get("status") == 5 ? true : false);
+  }, [Cookies.get("status")]);
 
   const ListNav = [
     {
@@ -123,6 +129,16 @@ export default function Sidebar() {
     },
   ];
 
+  const AdminNav = [
+    {
+      id: 0,
+      icon: <Gift />,
+      label: "Kullanıcılar",
+      url: "/dashboard/admin/users",
+      disabled: false,
+    },
+  ];
+
   return (
     <div ref={parent} className={"lg:max-w-80 max-w-auto w-full flex flex-col gap-2 sticky " + (littleMenu ? "!max-w-auto !w-auto" : null)}>
       <SidebarHead
@@ -158,6 +174,19 @@ export default function Sidebar() {
           />
         ))}
         <Line />
+        {isAdmin == true ? AdminNav.map((list) => (
+          <>
+          <SidebarList
+            key={list.id}
+            label={list.label}
+            url={list.url}
+            icon={list.icon}
+            disabled={list.disabled}
+            littleMenu={littleMenu}
+          />
+          <Line />
+          </>
+        )) : null}
         {UserNav.map((list) => (
           <SidebarList
             key={list.id}

@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="google-adsense-account" content="ca-pub-1113432847008327" />
       </Head>
       <NextTopLoader color="#4f46e5" />
-      <BugReporter />
+      {/* <BugReporter /> */}
       <Component {...pageProps} />
       <Toaster position="left-top" />
       <SpeedInsights />
