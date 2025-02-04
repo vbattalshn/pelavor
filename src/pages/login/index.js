@@ -54,6 +54,11 @@ export default function Login() {
           <SigninWithGoogle type="Sign in" />
           <SigninWithGithub type="Sign in" />
           <hr className="w-72 bg-neutral-200 h-[2px] rounded" />
+          <span className="">
+            Demo User<br/>
+            username: DemoUser<br/>
+            password: DemoUser123
+          </span>
           <SigninWithEmail />
           <div className="text-sm text-neutral-500">
             Hesabın yok mu? 
