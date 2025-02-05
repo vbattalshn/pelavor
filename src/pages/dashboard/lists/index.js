@@ -5,6 +5,7 @@ import ListCard from "@/components/listCard";
 import ListsNotFound from "@/components/listsNotFound";
 import toast from "react-hot-toast";
 import ListsLoading from "@/components/listsLoading";
+import PageHead from "@/components/dashboard/pageHead";
 
 export default function Lists() {
   const [lists, setLists] = useState([]);
@@ -26,6 +27,7 @@ export default function Lists() {
 
   return (
     <Layout>
+      <PageHead title="Listelerin" description="Oluşturduğun listeleri bu sayfada görebilirsin." />
       <div className="max-w-screen-xl w-full place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-start">
         {loading ? (
           <ListsLoading />

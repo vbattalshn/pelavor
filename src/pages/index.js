@@ -122,7 +122,7 @@ const Home = ({ lists, stories }) => {
       <Header />
       <div className="w-full flex items-center justify-center bg-mainImage bg-auto bg-center main-section">
         <div className="max-w-5xl mx-auto py-16 px-4 flex items-center justify-center flex-col gap-9">
-          <h1 className="font-black text-6xl text-neutral-900 text-center tracking-wide">
+          <h1 className="font-black text-6xl text-neutral-900 text-center tracking-wide [text-shadow:_0_0_5px_rgb(0_0_0_/_50%)]">
             Dil öğrenmen için her yolu keşfet!
           </h1>
           <p className="font-medium text-neutral-700 text-center">
@@ -135,7 +135,7 @@ const Home = ({ lists, stories }) => {
           </p>
           <button
             onClick={() => scrollToElementBottom("main-section")}
-            className="px-4 py-3 rounded-lg bg-indigo-600 text-neutral-200 font-medium"
+            className="px-4 py-3 rounded-lg bg-indigo-600 text-neutral-200 font-medium drop-shadow-lg"
           >
             Pelavor'u keşfet
           </button>

@@ -7,6 +7,7 @@ import Markdown from "react-markdown";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import toast from "react-hot-toast";
+import PageHead from "@/components/dashboard/pageHead";
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
@@ -42,6 +43,7 @@ export default function Messages() {
 
   return (
     <Layout>
+      <PageHead title="Mesajlar" description="Bu sayfada adminler tarafından sana özel ve tüm kullanıcıları ilgilendiren mesajları görebilirsin." />
       <div
         id="message-container"
         className="flex flex-col p-2 gap-2 max-w-5xl relative"

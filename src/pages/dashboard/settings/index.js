@@ -11,6 +11,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import PageHead from "@/components/dashboard/pageHead";
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
@@ -76,6 +77,7 @@ export default function Settings() {
 
   return (
     <Layout>
+      <PageHead title="Hesap Ayarları" description="Bu sayfada hesabınla ilgili ayarları yapabilirsin. Bütün bilgileri tam ve doğru girmen önemli." />
       <div className="flex flex-col max-w-5xl">
       <div className="settings">
           <SettingsHead

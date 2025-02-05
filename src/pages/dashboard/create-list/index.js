@@ -9,6 +9,7 @@ import { useState } from "react";
 import ErrorMessage from "@/components/errormessage";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { forwardRef } from "react";
+import PageHead from "@/components/dashboard/pageHead";
 
 export default function CreateList() {
   const [listData, setListData] = useState([]);
@@ -46,6 +47,8 @@ export default function CreateList() {
 
   return (
     <Layout>
+      <PageHead title="Liste Oluştur" description="Bu sayfada liste oluşturup oluşturduğun liste ile ilgili gerekli ayarları yapabilirsin." />
+
       <main className="max-w-screen-2xl flex gap-2 flex-col lg:flex-row">
         <div className="w-full p-2 flex flex-col gap-2">
           <AddWord addWordtoList={addWordtoList} />
