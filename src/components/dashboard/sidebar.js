@@ -71,22 +71,6 @@ export default function Sidebar() {
     },
   ];
 
-  const UserPay = [
-    {
-      id: 0,
-      icon: <Wallet />,
-      label: "Kartların",
-      url: "/dashboard/cards",
-      disabled: true,
-    },
-    {
-      id: 1,
-      icon: <Bill />,
-      label: "Faturlar",
-      url: "/dashboard/bills",
-      disabled: true,
-    }
-  ]
 
   const UserNav = [
     {
@@ -119,16 +103,6 @@ export default function Sidebar() {
     },
   ];
 
-  const SiteNav = [
-    {
-      id: 0,
-      icon: <Gift />,
-      label: "Güncellemeler",
-      url: "/dashboard/updates",
-      disabled: true,
-    },
-  ];
-
   const AdminNav = [
     {
       id: 0,
@@ -149,21 +123,10 @@ export default function Sidebar() {
       />
       <nav
         className={
-          "flex gap-1 flex-col " + (showMenu ? "lg:flex hidden" : null)
+          "flex gap-1 flex-col " + (!showMenu ? "lg:flex hidden" : null)
         }
       >
         {ListNav.map((list) => (
-          <SidebarList
-            key={list.id}
-            label={list.label}
-            url={list.url}
-            icon={list.icon}
-            disabled={list.disabled}
-            littleMenu={littleMenu}
-          />
-        ))}
-        <Line />
-        {UserPay.map((list) => (
           <SidebarList
             key={list.id}
             label={list.label}
@@ -188,17 +151,6 @@ export default function Sidebar() {
           </>
         )) : null}
         {UserNav.map((list) => (
-          <SidebarList
-            key={list.id}
-            label={list.label}
-            url={list.url}
-            icon={list.icon}
-            disabled={list.disabled}
-            littleMenu={littleMenu}
-          />
-        ))}
-        <Line />
-        {SiteNav.map((list) => (
           <SidebarList
             key={list.id}
             label={list.label}

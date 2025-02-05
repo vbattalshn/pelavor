@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import apiClient from "@/lib/api";
 import ListCard from "@/components/listCard";
 import toast from "react-hot-toast";
+import ListsNotFound from "@/components/listsNotFound";
+import ListsLoading from "@/components/listsLoading";
 
 export default function RegisteredLists() {
   const [lists, setLists] = useState([]);
@@ -25,7 +27,12 @@ export default function RegisteredLists() {
   return (
     <Layout>
       <div className="max-w-screen-xl w-full place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-start">
-        {lists.length > 0 || loading==false ? (
+      {loading ? (
+          <ListsLoading />
+          
+        ) : lists.length === 0 ? (
+          <ListsNotFound title="Henüz Kayıt Olduğun Bir Liste Bulunmuyor" description="Listelere kaydolarak ilerlemeyi takip et ve ingilizceni geliştir" href="/hot-lists" linkContent="Popüler Listeleri Görüntüle" />
+        ) : (
           lists.map((list, index) => (
             <ListCard
               key={index}
@@ -36,11 +43,8 @@ export default function RegisteredLists() {
               user={list.user}
               url={list.url}
               edit={true}
-              progress={list.progress}
             />
           ))
-        ) : (
-          <p>{lists.length > 0 ? "Yükleniyor..." : "No lists available"}</p>
         )}
       </div>
     </Layout>

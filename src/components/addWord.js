@@ -36,7 +36,7 @@ export default function AddWord({addWordtoList}) {
   }
 
   return (
-    <Disclosure as="div" className="bg-neutral-200/50 border border-neutral-200 p-2 rounded-lg flex flex-col gap-2 transition">
+    <Disclosure defaultOpen as="div" className="bg-neutral-200/50 border border-neutral-200 p-2 rounded-lg flex flex-col gap-2 transition">
       <div className="text-neutral-800 font-semibold text-lg flex justify-between items-center">
         <span>
           Var olan bir{" "}

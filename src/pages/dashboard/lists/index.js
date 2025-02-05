@@ -2,7 +2,9 @@ import Layout from "@/components/dashboardLayout";
 import { useEffect, useState } from "react";
 import apiClient from "@/lib/api";
 import ListCard from "@/components/listCard";
+import ListsNotFound from "@/components/listsNotFound";
 import toast from "react-hot-toast";
+import ListsLoading from "@/components/listsLoading";
 
 export default function Lists() {
   const [lists, setLists] = useState([]);
@@ -25,7 +27,11 @@ export default function Lists() {
   return (
     <Layout>
       <div className="max-w-screen-xl w-full place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-start">
-        {lists.length > 0 || loading==false ? (
+        {loading ? (
+          <ListsLoading />
+        ) : lists.length === 0 ? (
+          <ListsNotFound title="Henüz Oluşturduğun Bir Liste Bulunmuyor" description="Liste oluşturarak takipçi kazan! Belirli bir Pelavor puanına ve takipçi sayısına ulaştığında, listelerini yalnızca abonelerinle paylaşabilir ve ek gelir elde edebilirsin." href="/dashboard/create-list" linkContent="Liste Oluştur" />
+        ) : (
           lists.map((list, index) => (
             <ListCard
               key={index}
@@ -38,10 +44,9 @@ export default function Lists() {
               edit={true}
             />
           ))
-        ) : (
-          <p>{lists.length > 0 ? "Yükleniyor..." : "No lists available"}</p>
         )}
       </div>
     </Layout>
   );
 }
+

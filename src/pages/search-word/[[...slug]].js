@@ -73,19 +73,22 @@ const SearchSection = ({ search, setSearch, onSubmit, lang, setLang }) => {
       <p className="text-base font-semibold text-neutral-700">
         Anlamını öğrenmek istediğin kelimeyi pelavor veritabanından doğru şekilde öğren.
       </p>
-      <form onSubmit={onSubmit} className="w-full flex gap-2 p-2">
+      <form onSubmit={onSubmit} className="w-full flex sm:flex-row flex-col  gap-2 p-2">
         <Input
           placeholder="Liste Ara"
           className="flex-1 !bg-neutral-100/50 backdrop-blur-sm w-full border-none p-4"
           value={search}
           setValue={setSearch}
         />
-        <button className="!bg-neutral-100/50 backdrop-blur-sm rounded-lg border-none p-4" onClick={() => setLang(lang === "en" ? "tr" : "en")} >
-          {
-            lang == "en" ? "İngilizceden Türkçeye" : "Türkçeden İngilizceye"
-          }
-        </button>
-        <Button type="submit" label="Liste Ara" className="rounded-lg" />
+        <div className="flex flex-1 sm:flex-none gap-2">
+          <button className="flex-1 sm:flex-none !bg-neutral-100/50 backdrop-blur-sm rounded-lg border-none p-4" onClick={() => setLang(lang === "en" ? "tr" : "en")} >
+            {
+              lang == "en" ? "İngilizceden Türkçeye" : "Türkçeden İngilizceye"
+            }
+          </button>
+          <Button type="submit" label="Liste Ara" className="rounded-lg" />
+
+        </div>
       </form>
     </div>
   );

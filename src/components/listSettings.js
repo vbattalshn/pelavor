@@ -77,6 +77,7 @@ export default function ListSettings({
 
   return (
     <Disclosure
+      defaultOpen
       as="div"
       className="bg-neutral-200/50 border border-neutral-200 p-2 rounded-lg flex flex-col gap-2 transition"
     >
