@@ -50,6 +50,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <meta name="google-adsense-account" content="ca-pub-1113432847008327" />
+        <meta name="yandex-verification" content="7e9cd71770267bee" />
       </Head>
       <NextTopLoader color="#4f46e5" />
       {/* <BugReporter /> */}
