@@ -7,8 +7,12 @@ const getLangFromCookie = () => {
 };
 
 const apiClient = axios.create({
-  baseURL: "https://api.pelavor.com",
+  baseURL: "https://api.pelavor.com/",
 });
+
+/*const apiClient = axios.create({
+  baseURL: "https://word-learning.test",
+});*/
 
 apiClient.interceptors.request.use((config) => {
   config.headers['Authorization'] = `Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY`;

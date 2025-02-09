@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import WordContent from "@/components/wordContent";
+import Head from "next/head";
 
 export default function SearchList() {
   const [search, setSearch] = useState("");
@@ -50,6 +51,18 @@ export default function SearchList() {
   };
   return (
     <>
+      <Head>
+        <title>Kelime Ara - Pelavor</title>
+        <meta name="description" content="İngilizce kelimeleri ve anlamlarını arayın. Öğrenmek istediğiniz kelimeyi bulun ve anlamını keşfedin."/>
+        <meta name="robots" content="index, follow"/>
+        <link rel="canonical" href="https://pelavor.com/search-word"/>
+        <meta property="og:title" content="Kelime Ara - Pelavor"/>
+        <meta property="og:description" content="İngilizce kelimeleri ve anlamlarını keşfetmek için arama yapın."/>
+        <meta property="og:url" content="https://pelavor.com/search-word"/>
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:title" content="Kelime Ara - Pelavor"/>
+        <meta name="twitter:description" content="İngilizce kelimeleri ve anlamlarını keşfetmek için arama yapın."/>
+      </Head>
       <Header />
       <SearchSection search={search} setSearch={setSearch} onSubmit={formSubmitted} lang={lang} setLang={setLang} />
       <div className="max-w-5xl w-full mx-auto flex flex-col bg-neutral-200/50 p-1 gap-1 rounded-lg border border-neutral-200 mb-2 animate-loaded">

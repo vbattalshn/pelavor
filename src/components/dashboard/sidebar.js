@@ -21,6 +21,7 @@ import Cookies from "js-cookie";
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import RegisteredList from "@/assets/icons/registeredList";
+import { useRouter } from "next/router";
 
 export default function Sidebar() {
   const [showMenu, setShowMenu] = useState(false);
@@ -28,6 +29,7 @@ export default function Sidebar() {
   const [parent] = useAutoAnimate()
   const [isAdmin, setAdmin] = useState(false);
   const [userStatusData, setUserStatusData] = useState([]);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -42,9 +44,12 @@ export default function Sidebar() {
     setLittleMenu(Cookies.get("sidebarLittleMenu") == "true" ? true : false)
   }, [])
   
-  Cookies.get("status")
   useEffect(() => {
-    setAdmin(Cookies.get("status") == 5 ? true : false);
+    if(Cookies.get("status")){
+      setAdmin(Cookies.get("status") == 5 ? true : false);
+    }else{
+      router.push("/logout");
+    }
   }, [Cookies.get("status")]);
 
   const ListNav = [

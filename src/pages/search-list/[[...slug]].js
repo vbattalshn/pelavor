@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import ListCard from "@/components/listCard";
 import ListsLoading from "@/components/listsLoading";
+import Head from "next/head";
 
 export default function SearchList(params) {
   const [search, setSearch] = useState("");
@@ -66,6 +67,19 @@ export default function SearchList(params) {
 
   return (
     <>
+      <Head>
+        <title>Kelime Listesi Ara - Pelavor</title>
+        <meta name="description" content="İngilizce kelime listelerini keşfedin ve öğrenmek istediğiniz listeyi bulun. Kullanıcılar tarafından oluşturulan listelere göz atın."/>
+        <meta name="robots" content="index, follow"/>
+        <link rel="canonical" href="https://pelavor.com/search-list"/>
+        <meta property="og:title" content="Kelime Listesi Ara - Pelavor"/>
+        <meta property="og:description" content="İngilizce kelime listelerini keşfetmek ve öğrenmek istediğiniz listeyi bulmak için arama yapın."/>
+        <meta property="og:url" content="https://pelavor.com/search-list"/>
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:title" content="Kelime Listesi Ara - Pelavor"/>
+        <meta name="twitter:description" content="İngilizce kelime listelerini keşfetmek ve öğrenmek istediğiniz listeyi bulmak için arama yapın."/>
+
+      </Head>
       <Header />
       <SearchSection search={search} setSearch={handleSearchChange} onSubmit={formSubmitted} />
       <PageFilter setOrder={setOrder} />

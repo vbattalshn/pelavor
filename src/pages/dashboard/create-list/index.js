@@ -5,11 +5,12 @@ import Layout from "@/components/dashboardLayout";
 import ListSettings from "@/components/listSettings";
 import Trash from "@/assets/icons/trash";
 import Reload from "@/assets/icons/reload";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ErrorMessage from "@/components/errormessage";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { forwardRef } from "react";
 import PageHead from "@/components/dashboard/pageHead";
+import ListCard from "@/components/listCard";
 
 export default function CreateList() {
   const [listData, setListData] = useState([]);
@@ -17,7 +18,7 @@ export default function CreateList() {
   const [showTheTrash, setShow] = useState(false);
   const [error, setError] = useState("");
   const [parent] = useAutoAnimate();
-
+  
   function addWordtoList(word) {
     setError("");
     if (!listData.includes(word)) {
@@ -54,6 +55,7 @@ export default function CreateList() {
           <AddWord addWordtoList={addWordtoList} />
           {/* <AddNewWord addWordtoList={addWordtoList} /> */}
           <ListSettings listData={listData} trashData={trash} />
+          
         </div>
         <div className="w-full p-2 flex flex-col gap-2">
           <div className="bg-neutral-200/50 border border-neutral-200 rounded flex">

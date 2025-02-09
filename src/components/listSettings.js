@@ -13,6 +13,8 @@ import {
 import { useRouter } from "next/router";
 import Add from "@/assets/icons/add";
 import Image from "next/image";
+import ListCard from "./listCard";
+import Cookies from "js-cookie";
 
 export default function ListSettings({
   listData,
@@ -31,6 +33,11 @@ export default function ListSettings({
   const [error, setError] = useState("");
   const [correct, setCorrect] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    setUser(Cookies.get("user_data"))
+  }, [Cookies])
 
   const fileInputRef = useRef(null);
   const router = useRouter();
@@ -112,7 +119,7 @@ export default function ListSettings({
           Liste Görseli
           <button
             onClick={() => fileInputRef.current.click()}
-            className="p-4 w-full rounded-lg border-dashed border-4 border-indigo-600 text-indigo-600 flex items-center justify-center hocus:bg-indigo-300/25"
+            className="p-4 w-full rounded-lg border-dashed border-2 border-indigo-600 text-indigo-600 flex items-center justify-center bg-indigo-300/25 hocus:bg-indigo-300/50"
           >
             <Add className="w-10 h-10" />
           </button>
@@ -121,9 +128,20 @@ export default function ListSettings({
               src={previewUrl}
               height={200}
               width={300}
+              className="rounded-lg"
               alt="preview image"
             />
           )}
+
+          <ListCard
+              key="1"
+              title={listName}
+              description={listDesc}
+              image={previewUrl ? previewUrl : "/default.png"}
+              date="123"
+              user={user}
+              url="#"
+            />
           <input
             ref={fileInputRef}
             className="hidden"
@@ -150,7 +168,6 @@ export default function ListSettings({
             className="w-full !bg-neutral-100"
           />
         </label>
-
         <Button
           onClick={saveList}
           label={isUpdate ? "Listeyi güncelle" : "Listeyi kaydet"}

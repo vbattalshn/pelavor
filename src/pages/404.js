@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from "@/components/header";
 import Link from "next/link";
+import Head from 'next/head';
 
 export default function Custom404() {
   const router = useRouter();
@@ -18,7 +19,21 @@ export default function Custom404() {
   };
 
   return (
-    <div>
+    <>
+      <Head>
+        <title>Sayfa Bulunamadı - Pelavor</title>
+        <meta name="description" content="Üzgünüz, aradığınız sayfa bulunamadı. Ana sayfamıza dönerek devam edebilirsiniz."/>
+        <meta name="robots" content="noindex, follow"/>
+        <link rel="canonical" href="https://pelavor.com/404"/>
+        <meta property="og:title" content="Sayfa Bulunamadı - Pelavor"/>
+        <meta property="og:description" content="Üzgünüz, aradığınız sayfa bulunamadı."/>
+        <meta property="og:image" content="https://files.pelavor.com/404.jpg"/>
+        <meta property="og:url" content="https://pelavor.com/404"/>
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content="Sayfa Bulunamadı - Pelavor"/>
+        <meta name="twitter:description" content="Üzgünüz, aradığınız sayfa bulunamadı."/>
+        <meta name="twitter:image" content="https://files.pelavor.com/404.jpg"/>
+      </Head>
       <Header />
       <div className="w-full h-screen flex items-center justify-start pt-48 gap-3 flex-col bg-notFoundImage bg-cover fixed top-0 bg-center">
         <h1 className="font-black text-neutral-900 text-8xl tracking-tighter animate-shake [text-shadow: 3px 3px 5px #00000080]">404</h1>
@@ -38,6 +53,6 @@ export default function Custom404() {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
