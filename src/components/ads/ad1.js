@@ -25,20 +25,18 @@ export default function ad1() {
       {premium == 0 && (
         <>
           <span>Reklam</span>
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113432847008327"
-            crossOrigin="anonymous"
-          ></script>
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-1113432847008327"
-            data-ad-slot={9776836217}
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>{" "}
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+{/* ReklamStore Script */}
+      <Script id="reklamstore-script" strategy="afterInteractive">
+        {`
+          var reklamstore_region_id=1112901;
+        `}
+      </Script>
+
+      <Script
+        id="reklamstore-loader"
+        src="//adserver.reklamstore.com/reklamstore.js"
+        strategy="afterInteractive"
+      />
         </>
       )}
     </>
