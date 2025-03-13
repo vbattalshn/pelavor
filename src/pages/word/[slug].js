@@ -11,7 +11,7 @@ const ReklamStoreAd = () => {
       {/* ReklamStore Script */}
       <Script id="reklamstore-script" strategy="afterInteractive">
         {`
-          var reklamstore_region_id=1112899;
+          var reklamstore_region_id=1112900;
         `}
       </Script>
 
