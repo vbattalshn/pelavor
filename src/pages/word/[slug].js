@@ -7,8 +7,6 @@ import Script from 'next/script';
 const ReklamStoreAd = () => {
   return (
     <div>
-      {/* Reklam Alanı */}
-      <div id="reklamstore-ad" style={{ width: '160px', height: '600px' }}></div>
 
       {/* ReklamStore Script */}
       <Script id="reklamstore-script" strategy="afterInteractive">
