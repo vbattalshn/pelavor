@@ -81,12 +81,7 @@ const Word = ({ wordData, slug }) => {
       </Head>
       <Header />
       <div className="max-w-5xl mx-auto px-2 py-4 !pt-10 flex flex-col gap-6">
-        <h1 className="font-black text-6xl font-serif capitalize">{slug}</h1><!-- ReklamStore code start - 160x600 -->
-<script type="text/javascript">
-var reklamstore_region_id=1112899;
-</script>
-<script type="text/javascript" src="//adserver.reklamstore.com/reklamstore.js"></script>
-<!-- ReklamStore code end - 160x600 -->
+        <h1 className="font-black text-6xl font-serif capitalize">{slug}</h1>
         <div className="relative overflow-x-auto">
           <table className="w-full text-left table-auto min-w-5xl overflow-hidden">
             <thead>
