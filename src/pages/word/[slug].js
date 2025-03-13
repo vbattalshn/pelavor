@@ -2,6 +2,29 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import axios from "axios"; // Import axios for server-side request
 import Head from "next/head";
+import Script from 'next/script';
+
+const ReklamStoreAd = () => {
+  return (
+    <div>
+      {/* Reklam Alanı */}
+      <div id="reklamstore-ad" style={{ width: '160px', height: '600px' }}></div>
+
+      {/* ReklamStore Script */}
+      <Script id="reklamstore-script" strategy="afterInteractive">
+        {`
+          var reklamstore_region_id=1112899;
+        `}
+      </Script>
+
+      <Script
+        id="reklamstore-loader"
+        src="//adserver.reklamstore.com/reklamstore.js"
+        strategy="afterInteractive"
+      />
+    </div>
+  );
+};
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
@@ -82,6 +105,7 @@ const Word = ({ wordData, slug }) => {
       <Header />
       <div className="max-w-5xl mx-auto px-2 py-4 !pt-10 flex flex-col gap-6">
         <h1 className="font-black text-6xl font-serif capitalize">{slug}</h1>
+        <ReklamStoreAd />
         <div className="relative overflow-x-auto">
           <table className="w-full text-left table-auto min-w-5xl overflow-hidden">
             <thead>
