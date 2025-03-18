@@ -26,18 +26,6 @@ export default function ad1() {
       {premium == 0 && (
         <>
           <span>Reklam</span>
-{/* ReklamStore Script */}
-      <Script id="reklamstore-script" strategy="afterInteractive">
-        {`
-          var reklamstore_region_id=1112901;
-        `}
-      </Script>
-
-      <Script
-        id="reklamstore-loader"
-        src="//adserver.reklamstore.com/reklamstore.js"
-        strategy="afterInteractive"
-      />
         </>
       )}
     </>
