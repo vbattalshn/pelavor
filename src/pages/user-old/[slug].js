@@ -151,7 +151,7 @@ function UserPageHead({ username }) {
             <span className="font-bold text-2xl text-neutral-900 flex items-center gap-2 ">
               {userData.fullname}
               {userData.User_verification_status ? (
-                <VerificationBadge classname="w-8 h-8" />
+                <VerificationBadge className="w-8 h-8" />
               ) : null}
             </span>
           </div>

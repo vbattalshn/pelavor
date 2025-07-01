@@ -190,7 +190,7 @@ function SidebarHead({ className, toggleMenu, toggleMenuWeight, littleMenu }) {
         onClick={toggleMenuWeight}
         className="p-1 bg-neutral-300 rounded-lg text-neutral-700 lg:block hidden"
       >
-        <SidebarArrow classname={(littleMenu ? " rotate-180 " : null) + " transition-all"} />
+        <SidebarArrow className={(littleMenu ? " rotate-180 " : null) + " transition-all"} />
       </button>
       <button
         onClick={toggleMenu}

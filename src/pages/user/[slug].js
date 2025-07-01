@@ -12,7 +12,7 @@ import {
 } from "@headlessui/react";
 import More from "@/assets/icons/more";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import apiClient from "@/lib/api";
@@ -23,104 +23,149 @@ import ListCard from "@/components/listCard";
 import Head from "next/head";
 import ListCardLoading from "@/components/listCardLoading";
 
+// Constants
+const TEXTS = {
+  FOLLOW: "Takip Et",
+  UNFOLLOW: "Takibi Bırak",
+  BLOCK_USER: "Kullanıcıyı engelle",
+  REPORT_USER: "Şikayet Et",
+  FOLLOWERS: "Takipçi",
+  FOLLOWING: "Takip",
+  LISTS: "Liste",
+  NO_LISTS: "Oluşturulmuş liste yok",
+  ERROR_OCCURRED: "Bir hata oluştu",
+  SUCCESS_FOLLOW: "Kullanıcı takip edildi",
+  SUCCESS_UNFOLLOW: "Kullanıcı takibi bırakıldı"
+};
+
+// API Configuration
+const API_CONFIG = {
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.pelavor.com",
+  token: process.env.PELAVOR_API_TOKEN || "GG839uzFjVhae7cpW6yqzBq7NvOzOfHY", // Fallback for existing setup
+  headers: {
+    "Content-Type": "application/json",
+  }
+};
+
+// Server-side data fetching
 export async function getServerSideProps(context) {
   const { slug } = context.params;
 
+  if (!slug) {
+    return {
+      notFound: true,
+    };
+  }
+
   try {
-    const response = await axios({
-      baseURL: "https://api.pelavor.com/get-user-page-data",
-      method: "post",
-      headers: {
-        Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
-        "Content-Type": "application/json",
-      },
-      data: {
-        username: slug,
-      },
-    });
+    const [userResponse, listsResponse] = await Promise.all([
+      axios({
+        url: `${API_CONFIG.baseURL}/get-user-page-data`,
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${API_CONFIG.token}`,
+          ...API_CONFIG.headers,
+        },
+        data: { username: slug },
+      }),
+      axios({
+        url: `${API_CONFIG.baseURL}/get-user-lists`,
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${API_CONFIG.token}`,
+          ...API_CONFIG.headers,
+        },
+        data: {
+          username: slug,
+          order: "created_date",
+        },
+      }),
+    ]);
 
-    const lists = await axios({
-      baseURL: "https://api.pelavor.com/get-user-lists",
-      method: "post",
-      headers: {
-        Authorization: "Bearer GG839uzFjVhae7cpW6yqzBq7NvOzOfHY",
-        "Content-Type": "application/json",
-      },
-      data: {
-        username: slug,
-        order: "created_date",
-      },
-    });
+    const userData = userResponse.data.data;
+    const userLists = listsResponse.data.data;
 
-    const userData = response.data.data;
-    const userLists = lists.data.data;
+    if (!userData) {
+      return { notFound: true };
+    }
 
     return {
       props: {
         userData,
-        userLists,
+        userLists: userLists || [],
       },
     };
   } catch (error) {
     console.error("Error fetching user data:", error);
 
+    // Handle different error types
+    if (error.response?.status === 404) {
+      return { notFound: true };
+    }
+
     return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
       props: {
         userData: null,
         userLists: [],
+        error: "Kullanıcı verileri yüklenirken hata oluştu",
       },
     };
   }
 }
 
-const User = ({ userData, userLists }) => {
+// Main User Component
+const User = ({ userData, userLists, error }) => {
   const router = useRouter();
+
+  if (error || !userData) {
+    return (
+      <>
+        <Header />
+        <div className="max-w-5xl mx-auto py-8 text-center">
+          <h1 className="text-2xl font-bold text-neutral-800 mb-4">
+            {error || "Kullanıcı bulunamadı"}
+          </h1>
+          <button
+            onClick={() => router.back()}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            Geri Dön
+          </button>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  const metaTitle = `${userData.fullname} - ${userData.username} | Pelavor`;
+  const metaDescription = userData.Profile_biography || `${userData.fullname} adlı kullanıcının profil sayfası`;
+  const metaImage = userData.Profile_photo;
+  const metaUrl = `https://pelavor.com/user/${userData.username}`;
 
   return (
     <>
       <Head>
-        <title>
-          {userData.fullname + " - " + userData.username + " | Pelavor"}
-        </title>
-        <meta
-          name="title"
-          content={userData.fullname + " - " + userData.username + " | Pelavor"}
-        />
-        <meta name="description" content={userData.Profile_biography} />
+        <title>{metaTitle}</title>
+        <meta name="title" content={metaTitle} />
+        <meta name="description" content={metaDescription} />
 
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content={"https://pelavor.com/user/" + userData.username}
-        />
-        <meta
-          property="og:title"
-          content={userData.fullname + " - " + userData.username + " | Pelavor"}
-        />
-        <meta property="og:description" content={userData.Profile_biography} />
-        <meta property="og:image" content={userData.Profile_photo} />
+        {/* Open Graph */}
+        <meta property="og:type" content="profile" />
+        <meta property="og:url" content={metaUrl} />
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:image" content={metaImage} />
 
+        {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta
-          property="twitter:url"
-          content={"https://pelavor.com/user/" + userData.username}
-        />
-        <meta
-          property="twitter:title"
-          content={userData.fullname + " - " + userData.username + " | Pelavor"}
-        />
-        <meta
-          property="twitter:description"
-          content={userData.Profile_biography}
-        />
-        <meta property="twitter:image" content={userData.Profile_photo} />
+        <meta property="twitter:url" content={metaUrl} />
+        <meta property="twitter:title" content={metaTitle} />
+        <meta property="twitter:description" content={metaDescription} />
+        <meta property="twitter:image" content={metaImage} />
       </Head>
+      
       <Header />
-      <UserPageHead
+      <UserPageContent
         username={router.query.slug}
         userData={userData}
         userLists={userLists}
@@ -130,218 +175,269 @@ const User = ({ userData, userLists }) => {
   );
 };
 
-const UserPageHead = ({ username, userData, userLists }) => {
-  const [showFollowBtn, setShowFollowBtn] = useState(true);
-  const [isFollowed, setIsFollowed] = useState(userData.isFollowed);
+// Main Page Content Component
+const UserPageContent = ({ username, userData, userLists }) => {
+  const [userState, setUserState] = useState({
+    followerCount: userData.follower_Count,
+    isFollowed: userData.isFollowed,
+  });
+  const [showFollowBtn, setShowFollowBtn] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Check if current user can follow this profile
   useEffect(() => {
-    setShowFollowBtn(false);
     const session = Cookies.get("session");
-    if (session != undefined) {
-      if (JSON.parse(Cookies.get("user_data")).username != userData.username) {
-        setShowFollowBtn(true);
+    if (session) {
+      try {
+        const currentUser = JSON.parse(Cookies.get("user_data"));
+        if (currentUser?.username && currentUser.username !== userData.username) {
+          setShowFollowBtn(true);
+        }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
       }
     }
+  }, [userData.username]);
+
+  // Follow/Unfollow handlers
+  const handleFollow = useCallback(async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      await apiClient.post("/follow", { username });
+      setUserState(prev => ({
+        ...prev,
+        isFollowed: true,
+        followerCount: prev.followerCount + 1,
+      }));
+      toast.success(TEXTS.SUCCESS_FOLLOW);
+    } catch (error) {
+      console.error("Follow error:", error);
+      toast.error(error.response?.data?.message || TEXTS.ERROR_OCCURRED);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [username, isLoading]);
+
+  const handleUnfollow = useCallback(async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      await apiClient.post("/unfollow", { username });
+      setUserState(prev => ({
+        ...prev,
+        isFollowed: false,
+        followerCount: prev.followerCount - 1,
+      }));
+      toast.success(TEXTS.SUCCESS_UNFOLLOW);
+    } catch (error) {
+      console.error("Unfollow error:", error);
+      toast.error(error.response?.data?.message || TEXTS.ERROR_OCCURRED);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [username, isLoading]);
+
+  const handleImageClick = useCallback(() => {
+    setShowPreview(true);
   }, []);
 
-  const follow = () => {
-    const data = {
-      username: username,
-    };
-
-    apiClient
-      .post("/follow", data)
-      .then((response) => {
-        setIsFollowed(true);
-        userData.follower_Count = userData.follower_Count + 1;
-      })
-      .catch((e) => {
-        console.error("Error fetching list data:", e);
-        toast.error(e.response?.data?.message || "Bir hata oluştu");
-      });
-  };
-
-  const unfollow = () => {
-    const data = {
-      username: username,
-    };
-
-    apiClient
-      .post("/unfollow", data)
-      .then((response) => {
-        setIsFollowed(false);
-        userData.follower_Count = userData.follower_Count - 1;
-      })
-      .catch((e) => {
-        console.error("Error fetching list data:", e);
-        toast.error(e.response?.data?.message || "Bir hata oluştu");
-      });
-  };
+  const handleClosePreview = useCallback(() => {
+    setShowPreview(false);
+  }, []);
 
   return (
     <div className="max-w-5xl mx-auto py-2 animate-loaded">
-      <Image
-        src={userData.Profile_banner}
-        width={1024}
-        height={256}
-        className="w-full h-64 rounded-2xl object-cover border-2 border-neutral-300"
-        alt="Profile Banner"
-      />
+      {/* Profile Banner */}
+      <div className="relative">
+        <Image
+          src={userData.Profile_banner}
+          width={1024}
+          height={256}
+          className="w-full h-64 rounded-2xl object-cover border-2 border-neutral-300"
+          alt={`${userData.username} profil banner`}
+          priority
+        />
+      </div>
+
+      {/* Profile Header */}
       <div className="flex gap-2 px-2 mt-[-50px] items-center justify-between sm:flex-row flex-col">
         <div className="flex gap-2 items-center sm:flex-row flex-col">
-          <Image
-            src={userData.Profile_photo}
-            alt={userData.username + " profile photo"}
-            width={400}
-            height={400}
-            className="w-[200px] h-[200px] rounded-full object-cover border-2 border-neutral-300"
-            onClick={() => setShowPreview(true)}
-          />
+          <div className="relative">
+            <Image
+              src={userData.Profile_photo}
+              alt={`${userData.username} profil fotoğrafı`}
+              width={200}
+              height={200}
+              className="w-[200px] h-[200px] rounded-full object-cover border-4 border-white shadow-lg cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={handleImageClick}
+              priority
+            />
+          </div>
+          
           <div className="flex flex-col gap-1">
             <span className="font-medium text-sm text-neutral-700 sm:text-start text-center">
               @{userData.username}
             </span>
-            <span className="font-bold text-2xl text-neutral-900 flex items-center gap-2 ">
+            <div className="font-bold text-2xl text-neutral-900 flex items-center gap-2 sm:justify-start justify-center">
               {userData.fullname}
-              {userData.User_verification_status ? (
-                <VerificationBadge classname="w-8 h-8" />
-              ) : null}
-            </span>
+              {userData.User_verification_status && (
+                <VerificationBadge className="w-8 h-8" />
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Action Buttons */}
         <div className="flex gap-2">
-          {showFollowBtn ? (
-            isFollowed ? (
-              <button
-                onClick={unfollow}
-                className="px-3 py-2 rounded-lg border border-indigo-600 text-indigo-600 hocus:bg-indigo-600 hocus:text-neutral-200 transition-all"
-              >
-                Takibi Bırak
-              </button>
-            ) : (
-              <button
-                onClick={follow}
-                className="px-3 py-2 rounded-lg border border-transparent bg-indigo-600 text-neutral-200 hocus:bg-indigo-600/10 hocus:text-indigo-600 hocus:border-indigo-600 transition-all"
-              >
-                Takip Et
-              </button>
-            )
-          ) : null}
+          {showFollowBtn && (
+            <button
+              onClick={userState.isFollowed ? handleUnfollow : handleFollow}
+              disabled={isLoading}
+              className={`px-4 py-2 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                userState.isFollowed
+                  ? "border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  : "bg-indigo-600 text-white hover:bg-indigo-700 border border-transparent"
+              }`}
+            >
+              {isLoading ? "..." : (userState.isFollowed ? TEXTS.UNFOLLOW : TEXTS.FOLLOW)}
+            </button>
+          )}
 
           <Menu>
-            <MenuButton className="p-3 rounded-lg bg-neutral-200/50 border border-neutral-200 text-neutral-800">
+            <MenuButton className="p-3 rounded-lg bg-neutral-200/50 border border-neutral-200 text-neutral-800 hover:bg-neutral-300/50 transition-colors">
               <More />
             </MenuButton>
             <MenuItems
-              className="p-1 mt-1 bg-neutral-200/50 rounded-lg flex flex-col gap-1 border border-neutral-200 z-20"
+              className="p-1 mt-1 bg-white rounded-lg flex flex-col gap-1 border border-neutral-200 shadow-lg z-20"
               anchor="bottom end"
             >
               <MenuItem>
-                <button
-                  className="p-2 px-4 hocus:bg-neutral-300/50 rounded-md transition-all hocus:underline"
-                  href="#"
-                >
-                  Kulanıcıyı engelle
+                <button className="p-2 px-4 hover:bg-neutral-100 rounded-md transition-colors w-full text-left">
+                  {TEXTS.BLOCK_USER}
                 </button>
               </MenuItem>
               <MenuItem>
-                <button
-                  className="p-2 px-4 hocus:bg-neutral-300/50 rounded-md transition-all hocus:underline"
-                  href="#"
-                >
-                  Şikayet Et
+                <button className="p-2 px-4 hover:bg-neutral-100 rounded-md transition-colors w-full text-left">
+                  {TEXTS.REPORT_USER}
                 </button>
               </MenuItem>
             </MenuItems>
           </Menu>
         </div>
       </div>
+
+      {/* Profile Info */}
       <div className="flex gap-8 p-4 text-neutral-700 sm:flex-row flex-col">
-        <p className="flex-1 sm:text-start text-center">
-          {userData.Profile_biography}
+        <p className="flex-1 sm:text-start text-center leading-relaxed">
+          {userData.Profile_biography || "Henüz bir biyografi eklenmemiş."}
         </p>
-        <div className="flex gap-4 sm:w-auto w-full justify-center">
-          <div className="flex flex-col gap-2 items-center">
-            <span className="font-extrabold text-2xl text-neutral-800">
-              {userData.user_list_count}
-            </span>
-            <span>Liste</span>
-          </div>
-          <div className="flex flex-col gap-2 items-center">
-            <span className="font-extrabold text-2xl text-neutral-800">
-              {userData.follower_Count}
-            </span>
-            <span>Takipçi</span>
-          </div>
-          <div className="flex flex-col gap-2 items-center">
-            <span className="font-extrabold text-2xl text-neutral-800">
-              {userData.followed_Count}
-            </span>
-            <span>Takip</span>
-          </div>
+        
+        <div className="flex gap-6 sm:w-auto w-full justify-center">
+          <StatItem 
+            count={userData.user_list_count} 
+            label={TEXTS.LISTS} 
+          />
+          <StatItem 
+            count={userState.followerCount} 
+            label={TEXTS.FOLLOWERS} 
+          />
+          <StatItem 
+            count={userData.followed_Count} 
+            label={TEXTS.FOLLOWING} 
+          />
         </div>
       </div>
+
+      {/* User Tags */}
       <UserTags userData={userData} />
+
+      {/* User Lists */}
       <UserLists userLists={userLists} username={username} />
-      <Dialog
-        open={showPreview}
-        onClose={() => setShowPreview(false)}
-        className="relative z-50"
-      >
-        <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-4 bg-neutral-700/50 backdrop-blur-sm z-50">
-          <DialogPanel className="rounded-full">
-            <Image
-              src={userData.Profile_photo}
-              alt={userData.username + " profile photo"}
-              width={400}
-              height={400}
-              className="w-[400px] h-[400px] rounded-full object-cover"
-            />
-          </DialogPanel>
-        </div>
-      </Dialog>
+
+      {/* Profile Photo Preview Modal */}
+      <ProfilePhotoModal
+        isOpen={showPreview}
+        onClose={handleClosePreview}
+        src={userData.Profile_photo}
+        alt={`${userData.username} profil fotoğrafı`}
+      />
     </div>
   );
 };
 
-const UserLists = ({ username, userLists }) => {
-  const [lists, setLists] = useState(userLists);
+// Stat Item Component
+const StatItem = ({ count, label }) => (
+  <div className="flex flex-col gap-2 items-center">
+    <span className="font-extrabold text-2xl text-neutral-800">
+      {count.toLocaleString('tr-TR')}
+    </span>
+    <span className="text-sm">{label}</span>
+  </div>
+);
+
+// Profile Photo Modal Component
+const ProfilePhotoModal = ({ isOpen, onClose, src, alt }) => (
+  <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+    <div className="fixed inset-0 flex items-center justify-center p-4">
+      <DialogPanel className="rounded-full">
+        <Image
+          src={src}
+          alt={alt}
+          width={400}
+          height={400}
+          className="w-[400px] h-[400px] rounded-full object-cover"
+        />
+      </DialogPanel>
+    </div>
+  </Dialog>
+);
+
+// User Lists Component
+const UserLists = ({ username, userLists: initialLists }) => {
+  const [lists, setLists] = useState(initialLists);
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState("created_date");
 
-  useEffect(() => {
-    getLists();
-  }, [order]);
-
-  function getLists() {
+  const fetchLists = useCallback(async () => {
     setLoading(true);
-    var data = {
-      username,
-      order,
-    };
+    try {
+      const response = await apiClient.post("/get-user-lists", {
+        username,
+        order,
+      });
+      setLists(response.data?.data || []);
+    } catch (error) {
+      console.error("Error fetching lists:", error);
+      toast.error(TEXTS.ERROR_OCCURRED);
+    } finally {
+      setLoading(false);
+    }
+  }, [username, order]);
 
-    apiClient
-      .post("/get-user-lists", data)
-      .then((response) => {
-        setLists(response.data?.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Bir Hata Oluştu.");
-      })
-      .finally(() => setLoading(false));
-  }
+  useEffect(() => {
+    if (order !== "created_date") {
+      fetchLists();
+    }
+  }, [order, fetchLists]);
+
+  const hasLists = lists && lists.length > 0;
+
   return (
     <>
-      {lists.length > 0 && loading == false ? (
-        <PageFilter setOrder={setOrder} />
-      ) : null}
+      {hasLists && !loading && <PageFilter setOrder={setOrder} />}
+      
       <div className="max-w-5xl w-full mx-auto place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-center">
-        {lists.length > 0 && loading == false ? (
-          lists.map((list, index) => (
+        {loading ? (
+          <ListsLoading />
+        ) : hasLists ? (
+          lists.map((list) => (
             <ListCard
-              key={index}
+              key={list.id || list.url}
               title={list.title}
               description={list.description}
               image={list.image}
@@ -351,21 +447,22 @@ const UserLists = ({ username, userLists }) => {
             />
           ))
         ) : (
-          <>{lists.length > 0 ? <ListsLoading /> : "Oluşturulmuş liste yok"}</>
+          <div className="col-span-full text-center py-8 text-neutral-600">
+            {TEXTS.NO_LISTS}
+          </div>
         )}
       </div>
     </>
   );
 };
 
-const ListsLoading = () => {
-  return (
-    <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
-      <ListCardLoading />
-      <ListCardLoading />
-      <ListCardLoading />
-    </div>
-  );
-}
+// Loading Component
+const ListsLoading = () => (
+  <div className="flex items-center w-full gap-4 lg:flex-row flex-col">
+    {[...Array(3)].map((_, index) => (
+      <ListCardLoading key={index} />
+    ))}
+  </div>
+);
 
 export default User;

@@ -1,4 +1,4 @@
-export default function Copy({ classname }) {
+export default function Copy({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ export default function Copy({ classname }) {
       height="24"
       fill="none"
       viewBox="0 0 24 24"
-      classname={classname}
+      className={className}
     >
       <path
         fill="currentColor"

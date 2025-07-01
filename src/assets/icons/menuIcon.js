@@ -1,4 +1,4 @@
-export default function MenuIcon({ classname }) {
+export default function MenuIcon({ className }) {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ export default function MenuIcon({ classname }) {
         height="24"
         fill="none"
         viewBox="0 0 24 24"
-        className={classname}
+        className={className}
       >
         <path
           fill="currentColor"

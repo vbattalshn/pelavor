@@ -1,4 +1,4 @@
-function SidebarArrow({ classname }) {
+function SidebarArrow({ className }) {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ function SidebarArrow({ classname }) {
         height="24"
         fill="none"
         viewBox="0 0 24 24"
-        className={ classname }
+        className={ className }
       >
         <path
           stroke="currentColor"

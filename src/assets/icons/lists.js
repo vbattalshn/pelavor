@@ -1,4 +1,4 @@
-export default function Lists({ classname }) {
+export default function Lists({ className }) {
     return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ export default function Lists({ classname }) {
           height="24"
           fill="none"
           viewBox="0 0 24 24"
-          className={classname}
+          className={className}
         >
           <path
             stroke="currentColor"

@@ -261,7 +261,7 @@ export default function Play() {
 }
 
 function ResultAnimation({ correct }) {
-  const [classname, setClassname] = useState("pending");
+  const [className, setClassname] = useState("pending");
 
   useEffect(() => {
     setTimeout(() => {
@@ -273,13 +273,13 @@ function ResultAnimation({ correct }) {
     <motion.div
       className={
         "p-8 rounded-xl flex items-center justify-center bg-yellow-300 text-neutral-100 transition-all rotate-90 " +
-        classname
+        className
       }
       animate={{
         rotate:
-          classname == "pending"
+          className == "pending"
             ? 90
-            : classname == "correct"
+            : className == "correct"
             ? [10, 0]
             : [190, 180],
       }}

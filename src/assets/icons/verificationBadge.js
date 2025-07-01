@@ -1,4 +1,4 @@
-export default function VerificationBadge({classname}) {
+export default function VerificationBadge({className}) {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ export default function VerificationBadge({classname}) {
         height="20"
         fill="none"
         viewBox="0 0 20 20"
-        className= {classname}
+        className= {className}
         title="Onaylanmış Kullanıcı"
         >
         <path
