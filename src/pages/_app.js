@@ -10,6 +10,7 @@ import { getAnalytics } from "firebase/analytics";
 import { useEffect } from "react";
 import Head from "next/head";
 import CookiePrivacyConsent from "@/components/cookiePrivacyConsent";
+import Script from "next/script";
 
 function MyApp({ Component, pageProps }) {
   apiClient.interceptors.response.use(
