@@ -52,12 +52,6 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta name="google-adsense-account" content="ca-pub-1113432847008327" />
       </Head>
-    <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113432847008327"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
       <NextTopLoader color="#4f46e5" />
       {/* <BugReporter /> */}
       <Component {...pageProps} />
