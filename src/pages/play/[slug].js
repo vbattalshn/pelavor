@@ -16,6 +16,7 @@ import Footer from "@/components/footer";
 import Volume from "@/assets/icons/volume";
 import PlayAdd from "@/assets/icons/playAdd";
 import Cookies from "js-cookie";
+import AdUnit from "@/components/ads/adunit";
 
 export default function Play() {
   const [answer, setAnswer] = useState();
@@ -364,6 +365,7 @@ function Speak({ text }) {
         <PlayAdd className="w-7 h-7" />
         Otomatik seslendir
       </button>
+      <AdUnit slot="8426563898" />
     </div>
   );
 }

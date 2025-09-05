@@ -21,6 +21,7 @@ import Head from "next/head";
 import cookie from "cookie";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import AdUnit from "@/components/ads/adunit";
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
@@ -293,6 +294,7 @@ function ListContent({ words }) {
           Tüm içeriği görebilmek için giriş yapmalısınız
         </Link>
       ) : null}
+      <AdUnit slot="3365808908" />
     </div>
   );
 }

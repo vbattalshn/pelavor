@@ -401,6 +401,8 @@ const Word = ({ wordData, slug, error }) => {
             </p>
           </div>
 
+          <AdUnit slot="2444196202" />
+
           {/* Search Section
           <SearchSection onSearchResults={handleSearchResults} />
 
@@ -431,6 +433,8 @@ const Word = ({ wordData, slug, error }) => {
               </p>
             </div>
           )}
+
+          <AdUnit slot="5070359545" />
 
           {/* Related Words Suggestion */}
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6">

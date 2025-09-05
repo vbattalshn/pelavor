@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import WordContent from "@/components/wordContent";
 import Head from "next/head";
 import Link from "next/link";
+import AdUnit from "@/components/ads/adunit";
 
 export default function SearchList() {
   const [search, setSearch] = useState("");
@@ -105,6 +106,7 @@ export default function SearchList() {
         words={words}
         loading={loading}
       />
+      <AdUnit slot="3261867123" />
       
       <Footer />
     </>
