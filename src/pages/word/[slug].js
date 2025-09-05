@@ -8,6 +8,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import axios from "axios";
+import AdUnit from "@/components/ads/adunit";
 
 const API_CONFIG = {
   baseURL: "https://api.pelavor.com",
@@ -414,17 +415,8 @@ const Word = ({ wordData, slug, error }) => {
             <WordTable wordData={wordData} slug={slug} />
           </div>
 
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113432847008327"
-                crossorigin="anonymous"></script>
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-1113432847008327"
-                data-ad-slot="1670988825"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+          <AdUnit slot="1670988825" />
+
 
 
           {/* Additional Info */}
