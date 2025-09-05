@@ -83,7 +83,6 @@ export default function SearchList(params) {
       </Head>
       <Header />
       <SearchSection search={search} setSearch={handleSearchChange} onSubmit={formSubmitted} />
-      <AdUnit slot="3261867123" />
       <PageFilter setOrder={setOrder} />
       <div className="max-w-5xl w-full mx-auto place-items-center grid grid-cols-auto-fit gap-3 p-2 items-center justify-center">
         {search.length > 0 && lists.length > 0 && !loading ? (
@@ -101,6 +100,9 @@ export default function SearchList(params) {
         ) : (
           loading ? (<ListsLoading /> ) : search.length > 3 ? (<p>Herhangi bir liste bulunamadı.</p>) : (<p className="p-4">Hemen bir liste ara. 🔎</p>)
         )}
+      </div>
+      <div className="mx-auto">
+        <AdUnit slot="3261867123" />
       </div>
       <Footer />
     </>

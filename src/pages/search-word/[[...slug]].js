@@ -106,7 +106,9 @@ export default function SearchList() {
         words={words}
         loading={loading}
       />
-      <AdUnit slot="3261867123" />
+      <div className="mx-auto">
+        <AdUnit slot="3261867123" />
+      </div>
       
       <Footer />
     </>
