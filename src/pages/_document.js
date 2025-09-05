@@ -17,7 +17,7 @@ export default function Document() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113432847008327" crossorigin="anonymous"></script>
-
+        
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#202020" />
         <link rel="icon" href="/favicon/favicon-32x32.png" />
