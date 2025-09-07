@@ -189,7 +189,8 @@ export default function Play() {
             <ResultAnimation correct={answerIsCorrect} />
           )}
 
-          <Ad1 />
+          <AdUnit slot="8426563898" />
+
           <div className="fixed max-w-5xl w-11/12 p-4 flex gap-2 bottom-4 bg-neutral-200 rounded-xl sm:flex-row flex-col z-50">
             <Button
               label="Anlamları Gör"
@@ -267,7 +268,7 @@ function ResultAnimation({ correct }) {
   useEffect(() => {
     setTimeout(() => {
       setClassname(correct ? "correct" : "wrong");
-    }, 1000);
+    }, 500);
   }, []);
 
   return (
@@ -365,7 +366,6 @@ function Speak({ text }) {
         <PlayAdd className="w-7 h-7" />
         Otomatik seslendir
       </button>
-      <AdUnit slot="8426563898" />
     </div>
   );
 }
