@@ -44,10 +44,6 @@ export default function Login() {
           content="English vocabulary learning,Learn English words,Vocabulary builder,Improve English vocabulary,English word lists,English vocabulary exercises,Online vocabulary practice,English learning resources,Study English vocabulary,English words and meanings,English vocabulary quizzes,Effective vocabulary learning,English vocabulary flashcards,English vocabulary for beginners,Advanced English vocabulary"
         />
       </Head>
-      <LeftBar
-        img="https://images.unsplash.com/photo-1557989048-03456d01a26e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        logoColor="#F5F5F5"
-      />
       <div className="flex-1 flex items-center justify-center flex-col gap-4 min-h-screen">
         <div className="flex justify-center items-center flex-col gap-3 ">
           <Title />
